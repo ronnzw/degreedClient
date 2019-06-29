@@ -5,12 +5,38 @@ import json
 import requests
 import urllib.parse as urlparse
 
-from .exceptions import PathgatherApiException #look at this
+from .articles import ArticleClient
+from .books import BookClient
+from .certifiable_skills import CertifiableSkillClient
+from .completions import CompletionClient
+from .content import ContentClient
+from .courses import CourseClient
+from .exceptions import DegreedApiException 
+from .groups import GroupClient
+from .logins import LoginClient
+from .pathways import PathwayClient
+from .providers import ProviderClient
+from .recommendations import RecommendationClient
+from .required_learnings import RequiredLearningsClient
+from .skills_plan import SkillPlanClient
+from .skills_ratings import SkillRatingClient
 from .users import UserClient
+from .user_skills import UserSkillClient
+from .user_followers import UserFollowersClient
+from .videos import VideoClient
+
+
+
 
 
 class DegreedApiClient(object):
-    """Main module."""
+
+    """Main API client."""
+
+
+    """
+    Set the default results per page. Max 100
+    """
     results_per_page = 100
 
     def __init__(self, client_id, client_secret, scope=None, proxy=None, skip_ssl_validation=False):
@@ -36,10 +62,10 @@ class DegreedApiClient(object):
 
         self._client_secret = client_secret
 
-        self.base_url = "https://api.degreed.com/api/v2"
-
-        self.token_req_url  = "https://degreed.com/oauth/token"
-
+        #self.base_url = "https://api.degreed.com/api/v2"
+        self.base_url = "https://api.betatest.degreed.com/api/v2"
+        #self.token_req_url  = "https://degreed.com/oauth/token"
+        self.token_req_url  = "https://betatest.degreed.com/oauth/token"
         self.session = requests.Session()
 
         self.scope_list = 'users:read'
@@ -67,37 +93,56 @@ class DegreedApiClient(object):
 
         self.response = self.session.post(self.token_req_url, data=payload, headers=headers)
         self.access_data = self.response.json()
+        try:
+            self.expiry_time = self.access_data['expires_in']
+            self.access_token = self.access_data['access_token']
+            self._refresh_token = self.access_data['refresh_token']
 
-        self.expiry_time = self.access_data['expires_in']
-        self.access_token = self.access_data['access_token']
-        self._refresh_token = self.access_data['refresh_token']
+            if self.expiry_time <= 50:
+                payload = {
+                    'grant_type': "refresh_token",
+                    'refresh_token': self._refresh_token,
+                    'client_id': self._client_id,
+                    'client_secret': self._client_secret,
+                    'scope': 'users:read'
+                }
 
-        if self.expiry_time <= 50:
-            payload = {
-                'grant_type': "refresh_token",
-                'refresh_token': self._refresh_token,
-                'client_id': self._client_id,
-                'client_secret': self._client_secret,
-                'scope': 'user:read',
-            }
+                headers = {
+                    'content-type': "application/x-www-form-urlencoded",
+                }
 
-            headers = {
-                'content-type': "application/x-www-form-urlencoded",
-            }
+                self.response = session.post(token_req_url, data=payload, headers=headers)
+                self.access_data = self.response.json()
+                self.access_token = self.access_data['access_token']  
+            else:
+                pass
 
-            self.response = session.post(token_req_url, data=payload, headers=headers)
-            self.access_data = self.response.json()
-            self.access_token = self.access_data['access_token']  
-        else:
+            self.session.headers.update(
+                {
+                    "Authorization": "Bearer {0}".format(self.access_token),
+                }
+            )
+        except KeyError:
             pass
 
-        self.session.headers.update(
-            {
-                "Authorization": "Bearer {0}".format(self.access_token),
-            }
-        )
-
         self._users = UserClient(self)
+        self._content = ContentClient(self)
+        self._article = ArticleClient(self)
+        self._book = BookClient(self)
+        self._video = VideoClient(self)
+        self._course = CourseClient(self)
+        self._group = GroupClient(self)
+        self._completion = CompletionClient(self)
+        self._login = LoginClient(self)
+        self._pathway = PathwayClient(self)
+        self._recommendation = RecommendationClient(self)
+        self._learnings = RequiredLearningsClient(self)
+        self._userfollower = UserFollowersClient(self)
+        self._provider = ProviderClient(self)
+        self._skillplan = SkillPlanClient(self)
+        self._userskill = UserSkillClient(self)
+        self._certifiableskill = CertifiableSkillClient(self)
+        self._skillrating = SkillRatingClient(self)
 
     def get(self, uri, params=None, data=None):
         try:
@@ -113,7 +158,7 @@ class DegreedApiClient(object):
 
             return result.json()
         except requests.HTTPError as e:
-            raise PathgatherApiException(e.response.text, uri)
+            raise DegreedApiException(e.response.text, uri)
 
     def get_paged(self, uri, params=None, data=None):
         try:
@@ -136,7 +181,7 @@ class DegreedApiClient(object):
                     break
 
         except requests.HTTPError as e:
-            raise PathgatherApiException(e.response.text, uri)
+            raise DegreedApiException(e.response.text, uri)
 
     def post(self, uri, data=None):
         try:
@@ -145,8 +190,17 @@ class DegreedApiClient(object):
 
             return result.json()
         except requests.HTTPError as e:
-            raise PathgatherApiException(e.response.text)
+            raise DegreedApiException(e.response.text)
 
+    def patch(self, uri, data=None):
+        try:
+            result = self.session.patch("{0}/{1}".format(self.base_url, uri), json=data)
+            result.raise_for_status()
+
+            return result.json()
+        except requests.HTTPError as e:
+            raise DegreedApiException(e.response.text)
+            
     def put(self, uri, data=None):
         try:
             result = self.session.put("{0}/{1}".format(self.base_url, uri), json=data)
@@ -154,14 +208,14 @@ class DegreedApiClient(object):
             if result.text:
                 return result.json()
         except requests.HTTPError as e:
-            raise PathgatherApiException(e.response.text)
+            raise DegreedApiException(e.response.text)
 
     def delete(self, uri):
         try:
             result = self.session.delete("{0}/{1}".format(self.base_url, uri))
             result.raise_for_status()
         except requests.HTTPError as e:
-            raise PathgatherApiException(e.response.text)
+            raise DegreedApiException(e.response.text)
 
     @property
     def users(self):
@@ -171,8 +225,165 @@ class DegreedApiClient(object):
         :rtype: :class:`degreedClient.users.UserClient`
         """
         return self._users
+
+    @property
+    def content(self):
+        """
+        Learning Content
+
+        :rtype: :class:`degreedClient.content.ContentClient`
+        """
+        return self._content
+
+    @property
+    def article(self):
+        """
+        Learning Articles
+
+        :rtype: :class:`degreedClient.articles.ArticleClient`
+        """
+        return self._article
+
+    @property
+    def book(self):
+        """
+        Learning Books
+
+        :rtype: :class:`degreedClient.books.BookClient`
+        """        
+        return self._book
+    
+    @property
+    def video(self):
+        """
+        Learning Videos
+
+        :rtype: :class:`degreedClient.videos.VideoClient`
+        """         
+        return self._video
+    @property
+    def course(self):
+        """
+        Learning Courses
+
+        :rtype: :class:`degreedClient.courses.CourseClient`
+        """                 
+        return self._course
+    
+    @property
+    def group(self):
+        """
+        Groups
+
+        :rtype: :class:`degreedClient.groups.GroupClient`
+        """          
+        return self._group
+
+    @property
+    def completion(self):
+        """
+        Completion
+
+        :rtype: :class:`degreedClient.completions.CompletionClient`
+        """          
+        return self._completion
+
+    @property
+    def login(self):
+        """
+        Login
+
+        :rtype: :class:`degreedClient.logins.LoginClient`
+        """             
+        return self._login
+
+    @property
+    def pathway(self):
+        """
+        Pathways
+
+        :rtype: :class:`degreedClient.pathways.PathwayClient`
+        """          
+        return self._pathway
+    
+    @property
+    def recommendation(self):
+        """
+        Recommendation
+
+        :rtype: :class:`degreedClient.recommendations.RecommendationClient`
+        """
+        return self._recommendation
+
+    @property
+    def learnings(self):
+        """
+        Required Learnings
+
+        :rtype: :class:`degreedClient.required_learnings.RequiredLearningsClient`
+        """        
+        return self._learnings
+
+    @property
+    def userfollower(self):
+        """
+        User Followers
+
+        :rtype: :class:`degreedClient.user_followers.UserFollowersClient`
+        """        
+        return self._userfollower
+    
+    @property
+    def provider(self):
+        """
+        Provider
+
+        :rtype: :class:`degreedClient.providers.ProviderClient`
+        """          
+        return self._provider
+    
+    @property
+    def skillplan(self):
+        """
+        Skill Plans
+
+        :rtype: :class:`degreedClient.skills_plan.SkillPlanClient`
+        """        
+        return self._skillplan
+
+    @property
+    def userskill(self):
+        """
+        User Skills
+
+        :rtype: :class:`degreedClient.user_skills.UserSkillClient`
+        """        
+        return self._userskill
+
+    @property
+    def certifiableskill(self):
+        """
+        Certifiable Skills
+
+        :rtype: :class:`degreedClient.certifiable_skills.CertifiableSkillClient`
+        """        
+        return self._certifiableskill
+
+
+    @property
+    def skillrating(self):
+        """
+        Skill Ratings
+
+        :rtype: :class:`degreedClient.skills_ratings.SkillRatingClient`
+        """        
+        return self._skillrating
+    
+    
+    
+    
 ###############################################################
-#.       Continue from here
+#.       Continue from here...if new modules are set
 ###############################################################
 
 

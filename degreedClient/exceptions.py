@@ -1,4 +1,4 @@
-class PathgatherApiException(Exception):
+class DegreedApiException(Exception):
     def __init__(self, message, uri=None):
         self.message = message
         self.uri = uri
@@ -6,5 +6,5 @@ class PathgatherApiException(Exception):
             self.message += "({0})".format(uri)
 
 
-class UserNotFoundException(PathgatherApiException):
+class UserNotFoundException(DegreedApiException):
     pass
