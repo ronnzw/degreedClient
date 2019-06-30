@@ -11,3 +11,6 @@ The DegreedClient is used to connect to the API and it offers
 .. autoclass:: DegreedApiClient
     :members:
 
+Types
+-----
+
