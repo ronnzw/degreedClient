@@ -1,5 +1,5 @@
 Welcome to Python client for Degreed API's documentation!
-======================================
+=========================================================
 
 .. toctree::
    :maxdepth: 2
