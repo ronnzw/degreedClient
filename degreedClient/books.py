@@ -1,33 +1,28 @@
 import json
 
-from .models.content import ( Content, ContentAttribute, ArticleAttribute,
-    Article, BookAttribute, Book)
-from .models.user import User
+from .models.content import BookAttribute, Book
 from .compatibility import scrub
 
 
 class BookClient(object):
-    """ Content API. """
+    """ Book Content API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all content.
+        Get all books.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param per_page: Amount of books per page
+        :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of articles
+            (see https://api.degreed.com/docs/#content-books)
+        :type  query: ``str``
 
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
-
-        :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :return: A list of articles
+        :rtype: ``list`` of :class:`degreedClient.models.content.Book`
         """
         params = {}
         if per_page is not None:
@@ -35,7 +30,7 @@ class BookClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id })
 
         books = self.client.get_paged('content/books', params=params, data=data)
         results = []
@@ -45,13 +40,13 @@ class BookClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch a book by ID.
 
-        :param id: The user id
+        :param id: The book id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.content.Book`
+        :rtype: :class:`degreedClient.models.content.Book`
         """
         book = self.client.get("content/books/{0}".format(id))
         a_book = book['data']
@@ -69,30 +64,40 @@ class BookClient(object):
         language=None,
         i_s_b_n13=None):
         """
-        Create an article.
+        Create a Book.
 
-        :param name: The article's external id, is required
-        :type  name: ``str``
+        :param title: The book title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param external_id: The book's external id, is required
+        :type  external_id: ``str``
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param subtitle: The book's subtitle
+        :type  subtitle: ``str``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param author: The book's author
+        :type  author: ``str``
 
-        :param job_title: The article's summary, no required
-         is optional
-        :type  job_title: ``str``
+        :param pages: Amount of pages
+        :type  pages: ``int``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param summary: Short summary of the book
+        :type  summary: ``str`` 
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :param obsolete: If the book should be marked as obsolete
+        :type  obsolete: ``bool``
+
+        :param publish_date: Date that the book has been published
+        :type  publish_date: ``str``
+
+        :param language:    Language of the book
+        :type  language: ``str``
+
+        :param i_s_b_n13: Short summary of the book
+        :type  i_s_b_n13: ``str``                                      
+
+        :return: An instance :class:`degreedClient.models.content.Book`
+        :rtype: :class:`degreedClient.models.content.Book`
         """
 
         params = {
@@ -134,30 +139,43 @@ class BookClient(object):
         language=None,
         i_s_b_n13=None):
         """
-        Create an article.
+        Update a Book.
 
-        :param name: The article's external id, is required
-        :type  name: ``str``
+        :param title: The ID of the book to update
+        :type  title: ``str``        
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param title: The book title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param external_id: The book's external id, is required
+        :type  external_id: ``str``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param subtitle: The book's subtitle
+        :type  subtitle: ``str``
 
-        :param job_title: The article's summary, no required
-         is optional
-        :type  job_title: ``str``
+        :param author: The book's author
+        :type  author: ``str``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param pages: Amount of pages
+        :type  pages: ``int``
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :param summary: Short summary of the book
+        :type  summary: ``str`` 
+
+        :param obsolete: If the book should be marked as obsolete
+        :type  obsolete: ``bool``
+
+        :param publish_date: Date that the book has been published
+        :type  publish_date: ``str``
+
+        :param language:    Language of the book
+        :type  language: ``str``
+
+        :param i_s_b_n13: Short summary of the book
+        :type  i_s_b_n13: ``str``                                      
+
+        :return: An instance :class:`degreedClient.models.content.Book`
+        :rtype: :class:`degreedClient.models.content.Book`
         """
 
         params = {}
