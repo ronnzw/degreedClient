@@ -5,14 +5,14 @@ from .compatibility import scrub
 
 
 class CourseClient(object):
-    """ Content API. """
+    """ Course Content API. """
 
     def __init__(self, client):
         self.client = client
 
     def all(self, per_page=None, next_id=None):
         """
-        Get all Courses.
+        Gets all Courses.
 
         :param per_page:    Amount of content to per page. Max of 1.000
         :type  per_page: ``str``
@@ -21,7 +21,7 @@ class CourseClient(object):
         :type  next_id: ``str``      
 
         :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Course`
+        :rtype: ``list`` of :class:`degreedClient.models.content.Course`
         """
         params = {}
         if per_page is not None:
@@ -39,13 +39,13 @@ class CourseClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch course by ID.
 
-        :param id: The user id
+        :param id: The course id
         :type  id: ``str``
 
-        :return: An instance :class:`degreedClient.models.content.Content`
-        :rtype: :class:`degreedClient.models.content.Content`
+        :return: An instance :class:`degreedClient.models.content.Course`
+        :rtype: :class:`degreedClient.models.content.Course`
         """
         course = self.client.get("content/courses/{0}".format(id))
         a_course = course['data']
@@ -172,8 +172,8 @@ class CourseClient(object):
         """
         Update a Course.
 
-        :param title: The ID of the course to update
-        :type  title: ``str``        
+        :param id: The ID of the course to update
+        :type  id: ``str``        
 
         :param title: The course title, is required
         :type  title: ``str``

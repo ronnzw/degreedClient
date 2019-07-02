@@ -12,13 +12,12 @@ class ArticleClient(object):
 
     def all(self, per_page=None, next_id=None):
         """
-        Get all articles.
+        Gets all articles.
 
         :param per_page: Amount of articles per page
         :type  per_page: ``str``
 
         :param next_id: Supplied to retrieve the next batch of articles
-            (see https://api.degreed.com/docs/#content-articles)
         :type  query: ``str``
 
         :return: A list of articles
@@ -62,25 +61,23 @@ class ArticleClient(object):
         """
         Create an article.
 
-        :param name: The article's external id, is required
-        :type  name: ``str``
+        :param external_id: The article's external id, is required
+        :type  external_id: ``str``
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param title: The article's title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param url: The article's url, is required
+        :type  url: ``str``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param num_words: The article's number of words, is required
+        :type  num_words: ``int``
 
-        :param job_title: The article's summary,
-         is optional
-        :type  job_title: ``str``
+        :param summary: The article's summary,
+        :type  summary: ``str``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param image_url: The article's image url 
+        :type  image_url: ``str``       
 
         :return: An instance :class:`degreedClient.models.content.Article`
         :rtype: :class:`degreedClient.models.content.Article`
@@ -113,28 +110,26 @@ class ArticleClient(object):
         """
         Can update contents any of the values as the Create A New Article
 
-        :param name: id of the article, is required
-        :type  name: ``str``
+        :param id: id of the article, is required
+        :type  id: ``str``
 
-        :param name: The article's external id
-        :type  name: ``str``
+        :param external_id: The article's external id
+        :type  external_id: ``str``
 
-        :param job_title: The article's title
-        :type  job_title: ``str``
+        :param title: The article's title
+        :type  title: ``str``
 
-        :param job_title: The article's url
-        :type  job_title: ``str``
+        :param url: The article's url
+        :type  url: ``str``
 
-        :param job_title: The article's number of words
-        :type  job_title: ``int``
+        :param num_words: The article's number of words
+        :type  num_words: ``int``
 
-        :param job_title: The article's summary
-         is optional
-        :type  job_title: ``str``
+        :param summary: The article's summary
+        :type  summary: ``str``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param image_url: The article's image url 
+        :type  image_url: ``str``       
 
         :return: An instance :class:`degreedClient.models.content.Article`
         :rtype: :class:`degreedClient.models.content.Article`

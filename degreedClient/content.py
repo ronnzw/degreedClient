@@ -13,7 +13,7 @@ class ContentClient(object):
 
     def all(self, per_page=None, start_filter=None, end_filter=None, next_id=None):
         """
-        Get all content.
+        Gets all content.
 
         :param per_page:    Amount of content to per page. Max of 1.000
         :type  per_page: ``str``
@@ -28,7 +28,7 @@ class ContentClient(object):
         :type  end_filter: ``str``       
 
         :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :rtype: ``list`` of :class:`degreedClient.models.content.Content`
         """
         params = {}
         if per_page is not None:

@@ -12,13 +12,12 @@ class BookClient(object):
 
     def all(self, per_page=None, next_id=None):
         """
-        Get all books.
+        Gets all books.
 
         :param per_page: Amount of books per page
         :type  per_page: ``str``
 
         :param next_id: Supplied to retrieve the next batch of articles
-            (see https://api.degreed.com/docs/#content-books)
         :type  query: ``str``
 
         :return: A list of articles
@@ -141,8 +140,8 @@ class BookClient(object):
         """
         Update a Book.
 
-        :param title: The ID of the book to update
-        :type  title: ``str``        
+        :param id: The ID of the book to update
+        :type  id: ``str``        
 
         :param title: The book title, is required
         :type  title: ``str``

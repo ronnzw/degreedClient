@@ -1,33 +1,27 @@
 import json
 
-from .models.content import ( Content, ContentAttribute, ArticleAttribute,
-    Article, BookAttribute, Book, Video, VideoAttribute)
-from .models.user import User
+from .models.content import Video, VideoAttribute
 from .compatibility import scrub
 
 
 class VideoClient(object):
-    """ Content API. """
+    """ Video Content API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all content.
+        Gets all Videos.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param per_page:    Amount of content to per page. Max of 1.000
+        :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
-
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
+        :param next_id: Supplied to retrieve the next batch of content.
+        :type  next_id: ``str``      
 
         :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :rtype: ``list`` of :class:`degreedClient.models.content.Video`
         """
         params = {}
         if per_page is not None:
@@ -35,7 +29,7 @@ class VideoClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         videos = self.client.get_paged('content/videos', params=params, data=data)
         results = []
@@ -45,13 +39,13 @@ class VideoClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch a video by ID.
 
-        :param id: The user id
+        :param id: The video id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.content.Video`
+        :rtype: :class:`degreedClient.models.content.Video`
         """
         video = self.client.get("content/videos/{0}".format(id))
         a_video = video['data']
@@ -69,30 +63,40 @@ class VideoClient(object):
         language=None,
         publish_date=None):
         """
-        Create an article.
+        Create a Video Content.
 
-        :param name: The article's external id, is required
-        :type  name: ``str``
+        :param external_id: The course's external id, is required
+        :type  external_id: ``str``        
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param title: The course title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param duration: Length of the course. Type is supplied with ``duration-type``
+        :type  duration: ``int``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param duration_type: Seconds, Minutes, Hours or Days
+        :type  duration_type: ``str``
 
-        :param job_title: The article's summary, no required
-         is optional
-        :type  job_title: ``str``
+        :param summary: Summary of the video
+        :type  summary: ``str`` 
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param url: URL location where more information can be found
+        :type  url: ``str``
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :param obsolete: If the course should be marked as obsolete
+        :type  obsolete: ``bool``
+
+        :param image_url: Cover image of the video
+        :type  image_url: ``str``
+
+        :param language: Spoken language of the video
+        :type  language: ``str``
+
+        :param publish_date: The date the video is published
+        :type  publish_date: ``str``                                                                                  
+
+        :return: An instance :class:`degreedClient.models.content.Video`
+        :rtype: :class:`degreedClient.models.content.Video`
         """
 
         params = {
@@ -132,30 +136,43 @@ class VideoClient(object):
         language=None,
         publish_date=None):
         """
-        Create an article.
+        Update a Video Content.
 
-        :param name: The article's external id, is required
-        :type  name: ``str``
+        :param id: The ID of the video to update
+        :type  id: ``str``          
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param external_id: The course's external id, is required
+        :type  external_id: ``str``        
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param title: The course title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param duration: Length of the course. Type is supplied with ``duration-type``
+        :type  duration: ``int``
 
-        :param job_title: The article's summary, no required
-         is optional
-        :type  job_title: ``str``
+        :param duration_type: Seconds, Minutes, Hours or Days
+        :type  duration_type: ``str``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param summary: Summary of the video
+        :type  summary: ``str`` 
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :param url: URL location where more information can be found
+        :type  url: ``str``
+
+        :param obsolete: If the course should be marked as obsolete
+        :type  obsolete: ``bool``
+
+        :param image_url: Cover image of the video
+        :type  image_url: ``str``
+
+        :param language: Spoken language of the video
+        :type  language: ``str``
+
+        :param publish_date: The date the video is published
+        :type  publish_date: ``str``                                                                                  
+
+        :return: An instance :class:`degreedClient.models.content.Video`
+        :rtype: :class:`degreedClient.models.content.Video`
         """
 
         params = {}
@@ -188,9 +205,9 @@ class VideoClient(object):
 
     def delete(self, id):
         """
-        Delete an book by ID.
+        Delete a video by ID.
 
-        :param id: The book ID
+        :param id: The video ID
         :type  id: ``str``
 
         :return: None
