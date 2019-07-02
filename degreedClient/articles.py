@@ -1,32 +1,28 @@
 import json
 
 from .models.content import Content, ContentAttribute, ArticleAttribute, Article
-from .models.user import User
 from .compatibility import scrub
 
 
 class ArticleClient(object):
-    """ Content API. """
+    """ Article Content API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all content.
+        Get all articles.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param per_page: Amount of articles per page
+        :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of articles
+            (see https://api.degreed.com/docs/#content-articles)
+        :type  query: ``str``
 
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
-
-        :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :return: A list of articles
+        :rtype: ``list`` of :class:`degreedClient.models.content.Article`
         """
         params = {}
         if per_page is not None:
@@ -34,7 +30,7 @@ class ArticleClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         articles = self.client.get_paged('content/articles', params=params, data=data)
         results = []
@@ -44,13 +40,13 @@ class ArticleClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch an article by ID.
 
-        :param id: The user id
+        :param id: The article id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.content.Article`
+        :rtype: :class:`degreedClient.models.content.Article`
         """
         article = self.client.get("content/articles/{0}".format(id))
         article_data = article['data']
@@ -78,7 +74,7 @@ class ArticleClient(object):
         :param job_title: The article's number of words, is required
         :type  job_title: ``int``
 
-        :param job_title: The article's summary, no required
+        :param job_title: The article's summary,
          is optional
         :type  job_title: ``str``
 
@@ -86,8 +82,8 @@ class ArticleClient(object):
          is optional
         :type  job_title: ``str``       
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :return: An instance :class:`degreedClient.models.content.Article`
+        :rtype: :class:`degreedClient.models.content.Article`
         """
 
         params = {
@@ -115,7 +111,7 @@ class ArticleClient(object):
     	summary=None,
     	image_url=None):
         """
-        Can contain any of the values as the Create A New Article
+        Can update contents any of the values as the Create A New Article
 
         :param name: id of the article, is required
         :type  name: ``str``
@@ -140,8 +136,8 @@ class ArticleClient(object):
          is optional
         :type  job_title: ``str``       
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :return: An instance :class:`degreedClient.models.content.Article`
+        :rtype: :class:`degreedClient.models.content.Article`
         """
 
         params = {}
