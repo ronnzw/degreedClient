@@ -11,18 +11,18 @@ class UserClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all users (will page results out)
+        Gets all Videos.
 
-        :param per_page: Starting page
-        :type  per_page: ``int``
+        :param per_page:    Amount of content to per page. Max of 1.000
+        :type  per_page: ``str``
 
-        :param query: Extra query parameters
-        :param query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of content.
+        :type  next_id: ``str``      
 
-        :return: A list of users
-        :rtype: ``list`` of :class:`degreedClient.degreedClient.models.user.User`
+        :return: A list of content
+        :rtype: ``list`` of :class:`degreedClient.models.user.User`
         """
         params = {}
         if per_page is not None:
@@ -30,7 +30,7 @@ class UserClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         users = self.client.get_paged('users', params=params, data=data)
         results = []
@@ -45,8 +45,8 @@ class UserClient(object):
         :param id: The user id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
         """
         user = self.client.get("users/{0}".format(id))
         user_data = user['data']
@@ -112,57 +112,52 @@ class UserClient(object):
         """
         Create a user.
 
-        :param name: The users' employee id
-        :type  name: ``str``
+        :param employee_id: The ID of the user to update
+        :type  employee_id: ``str``
 
-        :param job_title: The users' first name
+        :param first_name: The first name of the user
+        :type  first_name: ``str``
+
+        :param last_name: The last name of the user
+        :type  last_name: ``str``
+
+        :param organisation_email: The full name of the user
+        :type  organisation_email: ``str``
+
+        :param password:    Password used to login, minimum 8 characters,
+         they must include at least one number and a capital letter.
         :type  job_title: ``str``
 
-        :param job_title: The users' last name
-        :type  job_title: ``str``
+        :param permission_role: Either ``Admin``, ``LearningProfessional``, ``Manager`` or ``Member``   
+        :type  permission_role: ``str``
 
-        :param job_title: The users' organization email
-        :type  job_title: ``str``
+        :param profile_visibility: Visibility of the profile, can be Everyone, Organization or Private
+        :type  profile_visibility: ``str``
 
-        :param job_title: The users' password must be at least 8 characters,
-         the must include at least one number and a capital letter.
-        :type  job_title: ``str``
+        :param full_name: The full name of the user
+        :type  full_name: ``str``
 
-        :param job_title: The users' permission role,
-        the options are Admin, LearningProfessional, Manager or Member
-        :type  job_title: ``str``
+        :param bio: Short biografie of the user, max len. 2000 chars.
+        :type  bio: ``str``
 
-        :param job_title: The users' profile visibility 
-         the options are Everyone, Organization or Private
-        :type  job_title: ``str``
+        :param login_disabled: Ability for the user to login
+        :type  login_disabled: ``bool``
 
-        :param job_title: The users' full name
-        :type  job_title: ``str``
+        :param restricted: Restricts the user to change certain fields
+        :type  restricted: ``bool``
 
-        :param job_title: The users' bio
-        :type  job_title: ``str``
+        :param real_time_email_notification: Do they want to receive email notifications
+        :type  real_time_email_notification: ``bool``
 
-        :param job_title: login disabled a boolean field
-        :type  job_title: ``bool``
+        :param daily_digest_email: Sign up for the daily digest email
+        :type  daily_digest_email: ``bool``
 
-        :param job_title: Restricts the user to change certain fields
-        :type  job_title: ``bool``
+        :param weekly_email_digest: Sign up for the weekly digest email
+        :type  weekly_email_digest: ``bool``        
 
-        :param job_title: Optional field
-         real time email notifications
-        :type  job_title: ``bool``
-
-        :param job_title: Optional daily digest email
-        :type  job_title: ``bool``
-
-        :param job_title: Optional
-         weekly email digest
-        :type  job_title: ``str``        
-
-        :return: An instance :class:`degreedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
         """
-
 
         params = {
             "employee-id": employee_id,
@@ -174,7 +169,6 @@ class UserClient(object):
             "profile-visibility": profile_visibility,
             }
         
-
 
         if full_name:
             params['full-name'] = full_name
@@ -213,57 +207,56 @@ class UserClient(object):
         daily_digest_email=False,
         weekly_email_digest=False,):
         """
-        Create a user.
+        Update an existing user.
 
-        :param name: The users' employee id
-        :type  name: ``str``
+        :param id: The users id
+        :type  id: ``str``
 
-        :param job_title: The users' first name
+        :param employee_id: The ID of the user to update
+        :type  employee_id: ``str``
+
+        :param first_name: The first name of the user
+        :type  first_name: ``str``
+
+        :param last_name: The last name of the user
+        :type  last_name: ``str``
+
+        :param organisation_email: The full name of the user
+        :type  organisation_email: ``str``
+
+        :param password:    Password used to login, minimum 8 characters,
+         they must include at least one number and a capital letter.
         :type  job_title: ``str``
 
-        :param job_title: The users' last name
-        :type  job_title: ``str``
+        :param permission_role: Either ``Admin``, ``LearningProfessional``, ``Manager`` or ``Member``   
+        :type  permission_role: ``str``
 
-        :param job_title: The users' organization email
-        :type  job_title: ``str``
+        :param profile_visibility: Visibility of the profile, can be Everyone, Organization or Private
+        :type  profile_visibility: ``str``
 
-        :param job_title: The users' password must be at least 8 characters,
-         the must include at least one number and a capital letter.
-        :type  job_title: ``str``
+        :param full_name: The full name of the user
+        :type  full_name: ``str``
 
-        :param job_title: The users' permission role,
-        the options are Admin, LearningProfessional, Manager or Member
-        :type  job_title: ``str``
+        :param bio: Short biografie of the user, max len. 2000 chars.
+        :type  bio: ``str``
 
-        :param job_title: The users' profile visibility 
-         the options are Everyone, Organization or Private
-        :type  job_title: ``str``
+        :param login_disabled: Ability for the user to login
+        :type  login_disabled: ``bool``
 
-        :param job_title: The users' full name
-        :type  job_title: ``str``
+        :param restricted: Restricts the user to change certain fields
+        :type  restricted: ``bool``
 
-        :param job_title: The users' bio
-        :type  job_title: ``str``
+        :param real_time_email_notification: Do they want to receive email notifications
+        :type  real_time_email_notification: ``bool``
 
-        :param job_title: login disabled a boolean field
-        :type  job_title: ``bool``
+        :param daily_digest_email: Sign up for the daily digest email
+        :type  daily_digest_email: ``bool``
 
-        :param job_title: Restricts the user to change certain fields
-        :type  job_title: ``bool``
+        :param weekly_email_digest: Sign up for the weekly digest email
+        :type  weekly_email_digest: ``bool``        
 
-        :param job_title: Optional field
-         real time email notifications
-        :type  job_title: ``bool``
-
-        :param job_title: Optional daily digest email
-        :type  job_title: ``bool``
-
-        :param job_title: Optional
-         weekly email digest
-        :type  job_title: ``str``        
-
-        :return: An instance :class:`degreedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
         """
         params = {}
         if employee_id:
@@ -310,9 +303,6 @@ class UserClient(object):
         :rtype: None    
         """
         self.client.delete("users/{0}".format(id))
-
-
-
 
     def _to_user(self, data):
         scrub(data)
