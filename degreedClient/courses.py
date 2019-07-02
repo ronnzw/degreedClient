@@ -1,7 +1,6 @@
 import json
 
 from .models.content import Course, CourseAttribute
-from .models.user import User
 from .compatibility import scrub
 
 
@@ -11,22 +10,18 @@ class CourseClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all content.
+        Get all Courses.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param per_page:    Amount of content to per page. Max of 1.000
+        :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
-
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
+        :param next_id: Supplied to retrieve the next batch of content.
+        :type  next_id: ``str``      
 
         :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :rtype: ``list`` of :class:`pathgather.models.content.Course`
         """
         params = {}
         if per_page is not None:
@@ -34,7 +29,7 @@ class CourseClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         courses = self.client.get_paged('content/courses', params=params, data=data)
         results = []
@@ -49,8 +44,8 @@ class CourseClient(object):
         :param id: The user id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.content.Content`
+        :rtype: :class:`degreedClient.models.content.Content`
         """
         course = self.client.get("content/courses/{0}".format(id))
         a_course = course['data']
@@ -73,30 +68,55 @@ class CourseClient(object):
         image_url=None,       
         language=None):
         """
-        Create an article.
+        Create a Course.
 
-        :param name: The article's external id, is required
-        :type  name: ``str``
+        :param title: The course title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param external_id: The course's external id, is required
+        :type  external_id: ``str``
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param duration: Length of the course. Type is supplied with ``duration-type``
+        :type  duration: ``int``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param duration_type: Seconds, Minutes, Hours or Days
+        :type  duration_type: ``str``
 
-        :param job_title: The article's summary, no required
-         is optional
-        :type  job_title: ``str``
+        :param provider_code: Unique provider code
+        :type  provider_code: ``str``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param cost_units: Units for the amount of cost
+        :type  cost_units: ``int`` 
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :param cost_unit_type: The cost unit type, can be any valuta
+        :type  cost_unit_type: ``str``
+
+        :param _format: Format the course is takes
+        :type  _format: ``str``
+
+        :param difficulty: Describing the difficulty of taking the course
+        :type  difficulty: ``str``
+
+        :param video_url: If the course has a video, supply it here
+        :type  video_url: ``str``
+
+        :param summary: Summary of the course
+        :type  summary: ``str`` 
+
+        :param url: URL location where more information can be found
+        :type  url: ``str``
+
+        :param obsolete: If the course should be marked as obsolete
+        :type  obsolete: ``bool``
+
+        :param image_url: Cover image of the course
+        :type  image_url: ``str``
+
+        :param language: Spoken language of the course
+        :type  language: ``str``                                                                            
+
+        :return: An instance :class:`degreedClient.models.content.Course`
+        :rtype: :class:`degreedClient.models.content.Course`
         """
 
         params = {
@@ -150,30 +170,58 @@ class CourseClient(object):
         image_url=None,       
         language=None):
         """
-        Create a course.
+        Update a Course.
 
-        :param name: The course's external id, is required
-        :type  name: ``str``
+        :param title: The ID of the course to update
+        :type  title: ``str``        
 
-        :param job_title: The article's title, is required
-        :type  job_title: ``str``
+        :param title: The course title, is required
+        :type  title: ``str``
 
-        :param job_title: The article's url, is required
-        :type  job_title: ``str``
+        :param external_id: The course's external id, is required
+        :type  external_id: ``str``
 
-        :param job_title: The article's number of words, is required
-        :type  job_title: ``int``
+        :param duration: Length of the course. Type is supplied with ``duration-type``
+        :type  duration: ``int``
 
-        :param job_title: The article's summary, no required
-         is optional
-        :type  job_title: ``str``
+        :param duration_type: Seconds, Minutes, Hours or Days
+        :type  duration_type: ``str``
 
-        :param job_title: The article's image url 
-         is optional
-        :type  job_title: ``str``       
+        :param provider_code: Unique provider code
+        :type  provider_code: ``str``
 
-        :return: An instance :class:`degreedClient.degreedClient.models.content.Article`
-        :rtype: :class:`degreeedClient.degreedClient.models.content.Article`
+        :param cost_units: Units for the amount of cost
+        :type  cost_units: ``int`` 
+
+        :param cost_unit_type: The cost unit type, can be any valuta
+        :type  cost_unit_type: ``str``
+
+        :param _format: Format the course is takes
+        :type  _format: ``str``
+
+        :param difficulty: Describing the difficulty of taking the course
+        :type  difficulty: ``str``
+
+        :param video_url: If the course has a video, supply it here
+        :type  video_url: ``str``
+
+        :param summary: Summary of the course
+        :type  summary: ``str`` 
+
+        :param url: URL location where more information can be found
+        :type  url: ``str``
+
+        :param obsolete: If the course should be marked as obsolete
+        :type  obsolete: ``bool``
+
+        :param image_url: Cover image of the course
+        :type  image_url: ``str``
+
+        :param language: Spoken language of the course
+        :type  language: ``str``                                                                            
+
+        :return: An instance :class:`degreedClient.models.content.Course`
+        :rtype: :class:`degreedClient.models.content.Course`
         """
 
         params = {}
@@ -215,9 +263,9 @@ class CourseClient(object):
 
     def delete(self, id):
         """
-        Delete an book by ID.
+        Delete a Course by ID.
 
-        :param id: The book ID
+        :param id: The Course ID
         :type  id: ``str``
 
         :return: None

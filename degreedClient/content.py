@@ -11,19 +11,21 @@ class ContentClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, start_filter=None, end_filter=None, query=None):
+    def all(self, per_page=None, start_filter=None, end_filter=None, next_id=None):
         """
         Get all content.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param per_page:    Amount of content to per page. Max of 1.000
+        :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of content.
+        :type  next_id: ``str``
 
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
+        :param start_filter: Content created from this date on
+        :type  start_filter: ``str``
+
+        :param end_filter:  Content created till this date
+        :type  end_filter: ``str``       
 
         :return: A list of content
         :rtype: ``list`` of :class:`pathgather.models.content.Content`
@@ -38,7 +40,7 @@ class ContentClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         content = self.client.get_paged('content', params=params, data=data)
         results = []
