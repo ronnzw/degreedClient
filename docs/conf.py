@@ -20,7 +20,24 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+
+
+
+#sys.path.insert(0, os.path.abspath('..'))
+
+
+
+
+# Get the project root dir, which is the parent dir of this
+cwd = os.getcwd()
+project_root = os.path.dirname(cwd)
+
+
+# Insert the project root dir as the first element in the PYTHONPATH.
+# This lets us ensure that the source package is imported, and that its
+# version is used.
+sys.path.insert(0, project_root)
+
 
 import degreedClient
 
@@ -65,7 +82,7 @@ release = degreedClient.__version__
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = CPython3.x
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
