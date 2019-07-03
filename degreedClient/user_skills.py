@@ -5,14 +5,14 @@ from .compatibility import scrub
 
 
 class UserSkillClient(object):
-    """ Required Learnings API. """
+    """ User Skill API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_date=None, end_date=None, per_page=None, query=None):
+    def all(self, start_date=None, end_date=None, per_page=None, next_id=None):
         """
-        Get all learning requirements.
+        Gets all users skills for the current organisation.
 
         :param start_date: start date eg 2018-11-30
         :type  start_date: ``str``
@@ -23,12 +23,11 @@ class UserSkillClient(object):
         :param per_page: Get from page
         :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://api.degreed.com/docs/#get-all-required-learnings)
-        :type  query: ``dict``
+        :param next_id: Additional filter query
+        :type  next_id: ``str``
 
-        :return: A list of required learnings
-        :rtype: ``list`` of :class:`degreedClient.models.required_learning.ReqLearning`
+        :return: A list of user skills
+        :rtype: ``list`` of :class:`degreedClient.models.user_skill.UserSkill`
         """
         params = {}
         if per_page is not None:
@@ -40,7 +39,7 @@ class UserSkillClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         user_skill = self.client.get_paged('user-skills', params=params, data=data)
         results = []

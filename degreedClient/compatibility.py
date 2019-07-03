@@ -2,7 +2,8 @@ def scrub(obj, bad="type"):
     """
     Scrub the _type dict item recursively
 
-    Credit https://stackoverflow.com/a/20692955/7402337
+    Credit through Athony Shaw: https://stackoverflow.com/a/20692955/7402337
+
     """
     if isinstance(obj, dict):
         for k in list(obj.keys()):

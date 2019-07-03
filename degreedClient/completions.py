@@ -8,21 +8,20 @@ from .models.completion import CompletionAttribute, NewCompletionAttribute
 
 
 class CompletionClient(object):
-    """ Completion API. """
+    """ Completion API object """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_date, end_date, per_page=None, query=None):
+    def all(self, start_date, end_date, per_page=None, next_id=None):
         """
-        Get all content.
+        Gets all completions from start to end date.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param per_page: Get from page
+        :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
+        :param next_id: Additional filter query
+        :type  next_id: ``dict``
 
         :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
         :type  filter: ``str``
@@ -36,7 +35,7 @@ class CompletionClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         completions = self.client.get_paged(
         	'completions?filter[start_date]={0}&filter[end_date]={1}'.format(start_date, end_date),

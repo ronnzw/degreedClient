@@ -5,14 +5,14 @@ from .compatibility import scrub
 
 
 class SkillRatingClient(object):
-    """ Required Learnings API. """
+    """ Skill Ratings API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_date=None, end_date=None, per_page=None, query=None):
+    def all(self, start_date=None, end_date=None, per_page=None, next_id=None):
         """
-        Get all learning requirements.
+        Gets all skills ratings.
 
         :param start_date: start date eg 2018-11-30
         :type  start_date: ``str``
@@ -20,15 +20,14 @@ class SkillRatingClient(object):
         :param end_date: end date eg 2018-11-30
         :type  end_date: ``str``
 
-        :param per_page: Get from page
+        :param per_page: Amount of skill ratings per page. Max of 1.000.
         :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://api.degreed.com/docs/#get-all-required-learnings)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of groups.
+        :type  next_id: ``dict``
 
-        :return: A list of required learnings
-        :rtype: ``list`` of :class:`degreedClient.models.required_learning.ReqLearning`
+        :return: A list of skill ratings
+        :rtype: ``list`` of :class:`degreedClient.models.skills_rating.SkillRating`
         """
         params = {}
         if per_page is not None:
@@ -40,7 +39,7 @@ class SkillRatingClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         rating_skill = self.client.get_paged('skill-ratings', params=params, data=data)
         results = []

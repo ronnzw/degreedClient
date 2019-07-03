@@ -10,22 +10,21 @@ class RequiredLearningsClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_date, end_date, per_page=None, query=None):
+    def all(self, start_date, end_date, per_page=None, next_id=None):
         """
-        Get all learning requirements.
+        Gets all learning requirements.
 
-        :param start_date: start date eg 2018-11-30
+        :param start_date: Get required learnings from this date on. eg 2018-11-30
         :type  start_date: ``str``
 
-        :param end_date: end date eg 2018-11-30
+        :param end_date: Get required learnings till this date. eg 2018-11-30
         :type  end_date: ``str``
 
-        :param per_page: Get from page
+        :param per_page: Amount of required learnings per page. Max of 1.000
         :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://api.degreed.com/docs/#get-all-required-learnings)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of required learning.
+        :type  next_id: ``str``
 
         :return: A list of required learnings
         :rtype: ``list`` of :class:`degreedClient.models.required_learning.ReqLearning`
@@ -36,7 +35,7 @@ class RequiredLearningsClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         learnings_req = self.client.get_paged(
         	'required-learning?filter[start_date]={0}&filter[end_date]={1}'.format(start_date, end_date),

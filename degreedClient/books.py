@@ -20,7 +20,7 @@ class BookClient(object):
         :param next_id: Supplied to retrieve the next batch of articles
         :type  query: ``str``
 
-        :return: A list of articles
+        :return: A list of books
         :rtype: ``list`` of :class:`degreedClient.models.content.Book`
         """
         params = {}

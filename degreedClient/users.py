@@ -13,7 +13,7 @@ class UserClient(object):
 
     def all(self, per_page=None, next_id=None):
         """
-        Gets all Videos.
+        Gets all Users.
 
         :param per_page:    Amount of content to per page. Max of 1.000
         :type  per_page: ``str``
@@ -21,7 +21,7 @@ class UserClient(object):
         :param next_id: Supplied to retrieve the next batch of content.
         :type  next_id: ``str``      
 
-        :return: A list of content
+        :return: A list of users
         :rtype: ``list`` of :class:`degreedClient.models.user.User`
         """
         params = {}
@@ -53,6 +53,15 @@ class UserClient(object):
         return self._to_user(user_data)
 
     def get_today_learnings(self, id):
+        """
+        Fetch user learning for a day by ID.
+
+        :param id: The user id
+        :type  id: ``str``
+
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
+        """        
         learnings = self.client.get("users/{0}/todays-learning".format(id))
         learnings_data_list = learnings['data']
         if len(learnings_data_list) > 0:
@@ -64,6 +73,15 @@ class UserClient(object):
         return learning_details
 
     def get_user_completions(self, id):
+        """
+        Fetch user completions by ID.
+
+        :param id: The user id
+        :type  id: ``str``
+
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
+        """         
         comp_data = self.client.get("users/{0}/completions".format(id))
         comp_list = comp_data["data"]
         if len(comp_list) > 0:
@@ -74,6 +92,15 @@ class UserClient(object):
         return comp_details
     
     def get_user_skills(self, id):
+        """
+        Fetch user skills by ID.
+
+        :param id: The user id
+        :type  id: ``str``
+
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
+        """         
         comp_data = self.client.get("users/{0}/user-skills".format(id))
         comp_list = comp_data["data"]
         if len(comp_list) > 0:
@@ -84,6 +111,15 @@ class UserClient(object):
         return comp_details  
 
     def get_user_certifiable_skills(self, id):
+        """
+        Fetch user certifiable skills by ID.
+
+        :param id: The user id
+        :type  id: ``str``
+
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
+        """         
         comp_data = self.client.get("users/{0}/user-skills".format(id))
         comp_list = comp_data["data"]
         if len(comp_list) > 0:
@@ -108,7 +144,7 @@ class UserClient(object):
         restricted=False,
         real_time_email_notification=False,
         daily_digest_email=False,
-        weekly_email_digest=False,):
+        weekly_email_digest=False):
         """
         Create a user.
 
@@ -205,7 +241,7 @@ class UserClient(object):
         restricted=False,
         real_time_email_notification=False,
         daily_digest_email=False,
-        weekly_email_digest=False,):
+        weekly_email_digest=False):
         """
         Update an existing user.
 

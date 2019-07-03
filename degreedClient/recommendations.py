@@ -10,25 +10,21 @@ class RecommendationClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_date, end_date, per_page=None, query=None):
+    def all(self, start_date, end_date, per_page=None, next_id=None):
         """
         Get all recommendations.
 
-        :param start_date: start date eg 2018-11-30
+        :param start_date: Get recommendations from this date on. eg 2018-11-30
         :type  start_date: ``str``
 
-        :param end_date: end date eg 2018-11-30
+        :param end_date: Get recommendations till this date. eg 2018-11-30
         :type  end_date: ``str``
 
-        :param per_page: Get from page
+        :param per_page: Amount of recommendations per page. Max of 1.000
         :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://api.degreed.com/docs/#get-all-recommendations)
-        :type  query: ``dict``
-
-        :param filter: 
-        :type  filter: ``str``
+        :param next_id: Supplied to retrieve the next batch of recommendations.
+        :type  next_id: ``str``
 
         :return: A list of recommendations
         :rtype: ``list`` of :class:`degreedClient.models.recommendation.Recommendation`
@@ -39,7 +35,7 @@ class RecommendationClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         recommendations = self.client.get_paged(
         	'recommendations?filter[start_date]={0}&filter[end_date]={1}'.format(start_date, end_date),

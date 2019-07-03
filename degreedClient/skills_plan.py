@@ -7,14 +7,14 @@ from .compatibility import scrub
 
 
 class SkillPlanClient(object):
-    """ Required Learnings API. """
+    """ Skills Plan API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all learning requirements.
+        Get all skill plans for the current organization.
 
         :param start_date: start date eg 2018-11-30
         :type  start_date: ``str``
@@ -22,15 +22,14 @@ class SkillPlanClient(object):
         :param end_date: end date eg 2018-11-30
         :type  end_date: ``str``
 
-        :param per_page: Get from page
+        :param per_page: Amount of providers per page. Max of 1.000
         :type  per_page: ``str``
 
-        :param query: Additional filter query
-            (see https://api.degreed.com/docs/#get-all-required-learnings)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of skill plans.
+        :type  next_id: ``str``
 
-        :return: A list of required learnings
-        :rtype: ``list`` of :class:`degreedClient.models.required_learning.ReqLearning`
+        :return: A list of skill plans
+        :rtype: ``list`` of :class:`degreedClient.models.skill_plan.SkillPlan`
         """
         params = {}
         if per_page is not None:
@@ -38,7 +37,7 @@ class SkillPlanClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         skillplan = self.client.get_paged('skill-plans', params=params, data=data)
         results = []
@@ -48,13 +47,13 @@ class SkillPlanClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch a skill plan by ID.
 
-        :param id: The user id
+        :param id: The ID of the skill plan to retrieve
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.skill_plan.SkillPlan`
+        :rtype: :class:`degreedClient.models.skill_plan.SkillPlan`
         """
         skillplan = self.client.get("skill-plans/{0}".format(id))
         a_skillplan = skillplan['data']
@@ -62,13 +61,13 @@ class SkillPlanClient(object):
 
     def get_skill_followers(self, id):
         """
-        Fetch a user by ID.
+        Fetch skill followers ID.
 
-        :param id: The user id
+        :param id: The unique id of the skill plan.
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.skill_plan.SkillFollower`
+        :rtype: :class:`degreedClient.models.skill_plan.SkillFollower`
         """
         skill_followers = self.client.get("skills-plans/{0}/followers".format(id))
         a_follower = skill_followers['data']
