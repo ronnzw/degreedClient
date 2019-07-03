@@ -35,3 +35,7 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+
+This package was derived from tonybaloney_ Anthony Shaw's open source project for the pathgather python client.
+
+.. _tonybaloney: https://github.com/tonybaloney/pathgather
