@@ -5,30 +5,23 @@ from .compatibility import scrub
 
 
 class CertifiableSkillClient(object):
-    """ Required Learnings API. """
+    """ Certifiable skills API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all learning requirements.
+        Get all certifiable skills.
 
-        :param start_date: start date eg 2018-11-30
-        :type  start_date: ``str``
+        :param per_page: Amount of certifiable skills per page. Max of 1.000
+        :type  per_page: ``int``
 
-        :param end_date: end date eg 2018-11-30
-        :type  end_date: ``str``
-
-        :param per_page: Get from page
-        :type  per_page: ``str``
-
-        :param query: Additional filter query
-            (see https://api.degreed.com/docs/#get-all-required-learnings)
-        :type  query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of user skills.
+        :type  next_id: ``str``
 
         :return: A list of required learnings
-        :rtype: ``list`` of :class:`degreedClient.models.required_learning.ReqLearning`
+        :rtype: ``list`` of :class:`degreedClient.models.certifiable_skill.CertifiableSkill`
         """
         params = {}
         if per_page is not None:
@@ -46,13 +39,13 @@ class CertifiableSkillClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch a specific certifiable skill
 
-        :param id: The user id
+        :param id: id used to get a specific certifiable skill
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.certifiable_skill.CertifiableSkill`
+        :rtype: :class:`degreedClient.models.certifiable_skill.CertifiableSkill`
         """
         user_skill = self.client.get("certifiable-skills/{0}".format(id))
         a_user_skill = user_skill['data']

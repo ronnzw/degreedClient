@@ -1,14 +1,4 @@
 pip==19.1.1
-bumpversion==0.5.3
-wheel==0.33.4
-watchdog==0.9.0
-flake8==3.7.7
-tox==3.11.1
-coverage==4.5.3
-Sphinx==2.0.1
-twine==1.13.0
-
-
 alabaster==0.7.12
 argh==0.26.2
 arrow==0.13.2
@@ -22,10 +12,10 @@ certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
 cookiecutter==1.6.0
-coverage==4.5.1
+coverage==4.5.3
 docutils==0.14
 filelock==3.0.12
-flake8==3.5.0
+flake8==3.7.7
 future==0.17.1
 idna==2.8
 imagesize==1.1.0
@@ -51,7 +41,7 @@ requests==2.22.0
 requests-toolbelt==0.9.1
 six==1.12.0
 snowballstemmer==1.2.1
-Sphinx==2.1.2
+Sphinx==2.0.1
 sphinxcontrib-applehelp==1.0.1
 sphinxcontrib-devhelp==1.0.1
 sphinxcontrib-htmlhelp==1.0.2
@@ -60,13 +50,14 @@ sphinxcontrib-qthelp==1.0.2
 sphinxcontrib-serializinghtml==1.1.3
 sphinxcontrib-websupport==1.1.2
 toml==0.10.0
-tox==3.5.2
+tox==3.11.1
 tqdm==4.32.1
-twine==1.12.1
+twine==1.13.0
 urllib3==1.25.2
 virtualenv==16.6.0
 watchdog==0.9.0
 webencodings==0.5.1
+wheel==0.33.4
 whichcraft==0.5.2
 
 
