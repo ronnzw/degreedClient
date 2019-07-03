@@ -14,22 +14,24 @@ class PathwayClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, start_filter=None, end_filter=None, query=None):
+    def all(self, per_page=None, start_filter=None, end_filter=None, next_id=None):
         """
-        Get all content.
+        Gets all pathways for the current organization.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param start_filter: Get pathways modified from this date on.
+        :type  start_filter: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
+        :param end_filter: Get pathways modified till this date.
+        :type  end_filter: ``str``        
 
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
+        :param per_page:   Amount of pathways per page. Max of 1.000
+        :type  per_page: ``int``
 
-        :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :param next_id: Supplied to retrieve the next batch of pathways.
+        :type  next_id: ``str``
+
+        :return: A list of pathways
+        :rtype: ``list`` of :class:`degreedClient.models.pathway.Pathway`
         """
         params = {}
         if per_page is not None:
@@ -51,13 +53,13 @@ class PathwayClient(object):
 
     def get(self, id):
         """
-        Fetch a pathway by ID.
+        Fetch all data on a specific pathway.
 
         :param id: The pathway id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.pathway.Pathway`
-        :rtype: :class:`degreeedClient.degreedClient.models.pathway.Pathway`
+        :return: An instance :class:`degreedClient.models.pathway.Pathway`
+        :rtype: :class:`degreedClient.models.pathway.Pathway`
         """
         user = self.client.get("pathways/{0}".format(id))
         user_data = user['data']
@@ -65,13 +67,13 @@ class PathwayClient(object):
 
     def get_pathway_tags(self, id):
         """
-        Fetch all tags by ID.
+        Fetch all tags for the selected pathway
 
-        :param id: The tag id
+        :param id: The pathway id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.pathway.Tag`
-        :rtype: :class:`degreeedClient.degreedClient.models.pathway.Tag`
+        :return: An instance :class:`degreedClient.models.pathway.Tag`
+        :rtype: :class:`degreedClient.models.pathway.Tag`
         """
         user = self.client.get("pathways/{0}/tags".format(id))
         user_data = user['data']
@@ -79,13 +81,13 @@ class PathwayClient(object):
 
     def get_pathway_collaborators(self, id):
         """
-        Fetch all pathway collaborators by ID.
+        Fetch all collaborators for the selected pathway
 
-        :param id: The tag id
+        :param id: The pathway id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.pathway.Tag`
-        :rtype: :class:`degreeedClient.degreedClient.models.pathway.Tag`
+        :return: An instance :class:`degreedClient.models.pathway.Collaborator`
+        :rtype: :class:`degreedClient.models.pathway.Collaborator`
         """
         user = self.client.get("pathways/{0}/collaborators".format(id))
         user_data = user['data']
@@ -93,13 +95,13 @@ class PathwayClient(object):
 
     def get_pathway_groups(self, id):
         """
-        Fetch all pathway groups by ID.
+        Fetch all groups for the selected pathway
 
-        :param id: The tag id
+        :param id: The pathway id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.pathway.GrpPathway`
-        :rtype: :class:`degreeedClient.degreedClient.models.pathway.GrpPathway`
+        :return: An instance :class:`degreedClient.models.pathway.GrpPathway`
+        :rtype: :class:`degreedClient.models.pathway.GrpPathway`
         """
         user = self.client.get("pathways/{0}/groups".format(id))
         user_data = user['data']
@@ -107,13 +109,13 @@ class PathwayClient(object):
 
     def get_pathway_followers(self, id):
         """
-        Fetch all pathway groups by ID.
+        Fetch all followers for the selected pathway.
 
-        :param id: The tag id
+        :param id: The pathway id
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.pathway.GrpPathway`
-        :rtype: :class:`degreeedClient.degreedClient.models.pathway.GrpPathway`
+        :return: An instance :class:`degreedClient.models.pathway.Follower`
+        :rtype: :class:`degreedClient.models.pathway.Follower`
         """
         user = self.client.get("pathways/{0}/followers".format(id))
         user_data = user['data']

@@ -21,7 +21,7 @@ class RecommendationClient(object):
         :type  end_date: ``str``
 
         :param per_page: Amount of recommendations per page. Max of 1.000
-        :type  per_page: ``str``
+        :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of recommendations.
         :type  next_id: ``str``

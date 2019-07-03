@@ -21,9 +21,9 @@ class UserSkillClient(object):
         :type  end_date: ``str``
 
         :param per_page: Get from page
-        :type  per_page: ``str``
+        :type  per_page: ``int``
 
-        :param next_id: Additional filter query
+        :param next_id: Supplied to retrieve the next batch of user skills.
         :type  next_id: ``str``
 
         :return: A list of user skills

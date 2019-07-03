@@ -282,7 +282,7 @@ class DegreedApiClient(object):
     @property
     def completion(self):
         """
-        Completion
+        Completions
 
         :rtype: :class:`degreedClient.completions.CompletionClient`
         """          
@@ -309,7 +309,7 @@ class DegreedApiClient(object):
     @property
     def recommendation(self):
         """
-        Recommendation
+        Recommendations
 
         :rtype: :class:`degreedClient.recommendations.RecommendationClient`
         """

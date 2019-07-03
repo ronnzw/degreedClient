@@ -14,13 +14,13 @@ class VideoClient(object):
         """
         Gets all Videos.
 
-        :param per_page:    Amount of content to per page. Max of 1.000
-        :type  per_page: ``str``
+        :param per_page: Amount of content to per page. Max of 1.000
+        :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of content.
         :type  next_id: ``str``      
 
-        :return: A list of content
+        :return: A list of Videos
         :rtype: ``list`` of :class:`degreedClient.models.content.Video`
         """
         params = {}

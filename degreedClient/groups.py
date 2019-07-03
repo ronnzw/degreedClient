@@ -8,22 +8,22 @@ from .models.attribute import Attribute
 
 
 class GroupClient(object):
-    """ Users API object """
+    """ Groups API object """
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, query=None):
+    def all(self, per_page=None, next_id=None):
         """
-        Get all users (will page results out)
+        Get all groups for the current organization
 
-        :param per_page: Starting page
+        :param per_page: Amount of groups to per page. Max of 1.000
         :type  per_page: ``int``
 
-        :param query: Extra query parameters
-        :param query: ``dict``
+        :param next_id: Supplied to retrieve the next batch of groups.
+        :param next_id: ``str``
 
-        :return: A list of users
-        :rtype: ``list`` of :class:`degreedClient.degreedClient.models.user.User`
+        :return: A list of groups
+        :rtype: ``list`` of :class:`degreedClient.models.group.Group`
         """
         params = {}
         if per_page is not None:
@@ -41,13 +41,13 @@ class GroupClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch a specific group for the current organization
 
-        :param id: The user id
+        :param id: id used to get a specific group
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.group.Group`
+        :rtype: :class:`degreedClient.models.group.Group`
         """
         user = self.client.get("groups/{0}".format(id))
         user_data = user['data']
@@ -55,13 +55,13 @@ class GroupClient(object):
 
     def group_users_list(self, id):
         """
-        Fetch a user by ID.
+        Fetch a list of users which are a member of this group.
 
-        :param id: The user id
+        :param id: id used to get a specific group
         :type  id: ``str``
 
-        :return: An instance :class:`degreeedClient.degreedClient.models.user.User`
-        :rtype: :class:`degreeedClient.degreedClient.models.user.User`
+        :return: An instance :class:`degreedClient.models.group.Group`
+        :rtype: :class:`degreedClient.models.group.Group`
         """
         user = self.client.get("groups/{0}/users".format(id))
         user_data = user['data']

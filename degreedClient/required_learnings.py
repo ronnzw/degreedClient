@@ -21,7 +21,7 @@ class RequiredLearningsClient(object):
         :type  end_date: ``str``
 
         :param per_page: Amount of required learnings per page. Max of 1.000
-        :type  per_page: ``str``
+        :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of required learning.
         :type  next_id: ``str``

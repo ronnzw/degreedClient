@@ -17,17 +17,22 @@ class CompletionClient(object):
         """
         Gets all completions from start to end date.
 
-        :param per_page: Get from page
+        :param start_date: Get completions from this date on. (YYYY-MON-DAY)
+        :type  start_date: ``str``  
+
+        :param end_date: Get completions till this date. (YYYY-MON-DAY)
+        :type  end_date: ``str``               
+
+        :param per_page: The amount of completions per page. Max. of 1000.
         :type  per_page: ``str``
 
-        :param next_id: Additional filter query
-        :type  next_id: ``dict``
+        :param next_id: Supplied to retrieve the next batch of content.
+        :type  next_id: ``str``
 
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
 
-        :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+
+        :return: A list of completions
+        :rtype: ``list`` of :class:`degreedClient.models.completion.Completion`
         """
         params = {}
         if per_page is not None:

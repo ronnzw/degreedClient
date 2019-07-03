@@ -1,7 +1,6 @@
 import json
 
 from .models.content import Content, ContentAttribute
-from .models.user import User
 from .compatibility import scrub
 
 
@@ -15,8 +14,8 @@ class ContentClient(object):
         """
         Gets all content.
 
-        :param per_page:    Amount of content to per page. Max of 1.000
-        :type  per_page: ``str``
+        :param per_page: Amount of content to per page. Max of 1.000
+        :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of content.
         :type  next_id: ``str``

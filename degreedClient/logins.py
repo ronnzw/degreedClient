@@ -7,27 +7,29 @@ from .models.login import Login, LoginAttribute
 
 
 class LoginClient(object):
-    """ Completion API. """
+    """ Logins API. """
 
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_date, end_date, per_page=None, query=None):
+    def all(self, start_date, end_date, per_page=None, next_id=None):
         """
-        Get all content.
+        Get all logins for the current organization.
 
-        :param from_page: Get from page
-        :type  from_page: ``str``
+        :param start_filter: Get logins from this date on. YYYY-MON-DAY
+        :type  start_filter: ``str``
 
-        :param query: Additional filter query
-            (see https://docs.pathgather.com/docs/filtering)
-        :type  query: ``dict``
+        :param end_filter: Get logins till this date. YYYY-MON-DAY
+        :type  end_filter: ``str``               
 
-        :param filter: Additional type filter, e.g. "shared", "official", "pathgather"
-        :type  filter: ``str``
+        :param per_page: Amount of logins to per page. Max of 1.000
+        :type  per_page: ``int``
 
-        :return: A list of content
-        :rtype: ``list`` of :class:`pathgather.models.content.Content`
+        :param next_id: Supplied to retrieve the next batch of groups.
+        :type  next_id: ``str``
+
+        :return: A list of logins
+        :rtype: ``list`` of :class:`pathgather.models.login.Login`
         """
         params = {}
         if per_page is not None:
@@ -35,7 +37,7 @@ class LoginClient(object):
 
         data = None
         if query is not None:
-            data = json.dumps({'q': query})
+            data = json.dumps({'next': next_id})
 
         completions = self.client.get_paged(
         	'logins?filter[start_date]={0}&filter[end_date]={1}'.format(start_date, end_date),

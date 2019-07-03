@@ -21,7 +21,7 @@ class UserFollowersClient(object):
         :type  end_date: ``str``
 
         :param per_page: Get from page
-        :type  per_page: ``str``
+        :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of user follower.
         :type  next_id: ``str``

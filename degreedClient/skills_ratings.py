@@ -21,10 +21,10 @@ class SkillRatingClient(object):
         :type  end_date: ``str``
 
         :param per_page: Amount of skill ratings per page. Max of 1.000.
-        :type  per_page: ``str``
+        :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of groups.
-        :type  next_id: ``dict``
+        :type  next_id: ``strt``
 
         :return: A list of skill ratings
         :rtype: ``list`` of :class:`degreedClient.models.skills_rating.SkillRating`
