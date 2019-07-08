@@ -29,7 +29,7 @@ class UserClient(object):
             params['limit'] = per_page
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id})
 
         users = self.client.get_paged('users', params=params, data=data)

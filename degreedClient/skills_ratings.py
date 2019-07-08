@@ -38,7 +38,7 @@ class SkillRatingClient(object):
             params['filter[end_date]'] = end_filter
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id})
 
         rating_skill = self.client.get_paged('skill-ratings', params=params, data=data)

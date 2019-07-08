@@ -2,9 +2,12 @@
 
 """Main module."""
 import arrow
+import attr
 import json
 import requests
 import urllib.parse as urlparse
+
+from attr import attrs, attrib
 
 from .articles import ArticleClient
 from .books import BookClient
@@ -19,8 +22,10 @@ from .pathways import PathwayClient
 from .providers import ProviderClient
 from .recommendations import RecommendationClient
 from .required_learnings import RequiredLearningsClient
+from .search_terms import SearchTermClient
 from .skills_plan import SkillPlanClient
 from .skills_ratings import SkillRatingClient
+from .the_views import TheViewClient
 from .users import UserClient
 from .user_skills import UserSkillClient
 from .user_followers import UserFollowersClient
@@ -38,11 +43,14 @@ class DegreedApiClient(object):
     """
     Set the default results per page. Max 100
     """
-    results_per_page = 100
+    results_per_page = 10
 
-    def __init__(self, client_id, client_secret, scope=None, proxy=None, skip_ssl_validation=False):
+    def __init__(self, host, client_id, client_secret, scope, proxy=None, skip_ssl_validation=False):
         """
         Instantiate a new API client
+
+        :param host: Host e.g: degreed.com
+        :type  host: ``str``        
 
         :param client_id: client_id, e.g. 'a123b456cd789' (request from degreed)
         :type  client_id: ``str``
@@ -59,22 +67,19 @@ class DegreedApiClient(object):
         :param skip_ssl_validation: Skip SSL validation
         :type  skip_ssl_validation: ``bool``
         """
+        self._host = host
         self._client_id = client_id
-
         self._client_secret = client_secret
+        self._scope = scope
 
         #self.base_url = "https://api.degreed.com/api/v2"
-        self.base_url = "https://api.betatest.degreed.com/api/v2"
+        #self.base_url = "https://api.betatest.degreed.com/api/v2"
+        self.token_req_url  = "https://{0}/oauth/token".format(host)        
+        self.base_url = "https://api.{0}/api/v2".format(host)        
         #self.token_req_url  = "https://degreed.com/oauth/token"
-        self.token_req_url  = "https://betatest.degreed.com/oauth/token"
+        #self.token_req_url  = "https://{0}/oauth/token".format(host)
+        #self.token_req_url  = "https://betatest.degreed.com/oauth/token"        
         self.session = requests.Session()
-
-        self.scope_list = 'users:read'
-
-        if scope == None:
-            self.scope = self.scope_list
-        else:
-            self.scope = scope
 
         if proxy:
             self.session.proxies = {"https": proxy}
@@ -85,7 +90,7 @@ class DegreedApiClient(object):
             'grant_type': "client_credentials",
             'client_id': '{0}'.format(self._client_id),
             'client_secret':'{0}'.format(self._client_secret),
-            'scope': '{0}'.format(self.scope),
+            'scope': '{0}'.format(self._scope)
         }
 
         headers = {
@@ -105,7 +110,7 @@ class DegreedApiClient(object):
                     'refresh_token': self._refresh_token,
                     'client_id': self._client_id,
                     'client_secret': self._client_secret,
-                    'scope': 'users:read'
+                    'scope': '{0}'.format(self._scope)
                 }
 
                 headers = {
@@ -140,7 +145,9 @@ class DegreedApiClient(object):
         self._learnings = RequiredLearningsClient(self)
         self._userfollower = UserFollowersClient(self)
         self._provider = ProviderClient(self)
+        self._searchterm = SearchTermClient(self)
         self._skillplan = SkillPlanClient(self)
+        self._theviews = TheViewClient(self)
         self._userskill = UserSkillClient(self)
         self._certifiableskill = CertifiableSkillClient(self)
         self._skillrating = SkillRatingClient(self)
@@ -159,7 +166,7 @@ class DegreedApiClient(object):
 
             return result.json()
         except requests.HTTPError as e:
-            raise DegreedApiException(e.response.text, uri)
+            raise DegreedApiException(e.response.text)
 
     def get_paged(self, uri, params=None, data=None):
         try:
@@ -379,6 +386,25 @@ class DegreedApiClient(object):
         :rtype: :class:`degreedClient.skills_ratings.SkillRatingClient`
         """        
         return self._skillrating
+
+    @property
+    def searchterm(self):
+        """
+        Search Terms
+
+        :rtype: :class:`degreedClient.search_terms.SearchTermClient`
+        """          
+        return self._searchterm
+    
+    @property
+    def theviews(self):
+        """
+        Views of content
+
+        :rtype: :class:`degreedClient.the_views.TheViewClient`
+        """         
+        return self._theviews
+    
     
     
     

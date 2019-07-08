@@ -1,10 +1,10 @@
 import json
 
-from .models.certifiable_skill import CertifiableSkill, CertifiableSkillAttribute
+from .models.search_term import SearchTerm, SearchTermAttribute
 from .compatibility import scrub
 
 
-class CertifiableSkillClient(object):
+class SearchTermClient(object):
     """ Certifiable skills API. """
 
     def __init__(self, client):
@@ -31,30 +31,16 @@ class CertifiableSkillClient(object):
         if next_id is not None:
             data = json.dumps({'next': next_id})
 
-        user_skills = self.client.get_paged('certifiable-skills', params=params, data=data)
+        search_term = self.client.get_paged('search-terms', params=params, data=data)
         results = []
-        for page in user_skills:
-            results.extend([ self._to_certifiable_skill(i) for i in page['data']])
+        for page in search_term:
+            results.extend([ self._to_search_term(i) for i in page['data']])
         return results
 
-    def get(self, id):
-        """
-        Fetch a specific certifiable skill
-
-        :param id: id used to get a specific certifiable skill
-        :type  id: ``str``
-
-        :return: An instance :class:`degreedClient.models.certifiable_skill.CertifiableSkill`
-        :rtype: :class:`degreedClient.models.certifiable_skill.CertifiableSkill`
-        """
-        user_skill = self.client.get("certifiable-skills/{0}".format(id))
-        a_user_skill = user_skill['data']
-        return self._to_certifiable_skill(a_user_skill)
-
-    def _to_certifiable_skill(self, data):
+    def _to_search_term(self, data):
         scrub(data)
         if "attributes" in data and data["attributes"] is not None:
             data['attributes'] = { x.replace('-','_'): y
             for x,y in data['attributes'].items()}
-            data['attributes'] = CertifiableSkillAttribute(**data['attributes'])
-        return CertifiableSkill(**data)
+            data['attributes'] = SearchTermAttribute(**data['attributes'])
+        return SearchTerm(**data)

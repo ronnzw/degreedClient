@@ -1,6 +1,6 @@
 import json
 
-from .models.content import Content, ContentAttribute, ArticleAttribute, Article
+from .models.content import ArticleAttribute, Article
 from .compatibility import scrub
 
 

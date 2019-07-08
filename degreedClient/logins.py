@@ -16,11 +16,11 @@ class LoginClient(object):
         """
         Get all logins for the current organization.
 
-        :param start_filter: Get logins from this date on. YYYY-MON-DAY
-        :type  start_filter: ``str``
+        :param start_date: Get logins from this date on. YYYY-MON-DAY
+        :type  start_date: ``str``
 
-        :param end_filter: Get logins till this date. YYYY-MON-DAY
-        :type  end_filter: ``str``               
+        :param end_date: Get logins till this date. YYYY-MON-DAY
+        :type  end_date: ``str``               
 
         :param per_page: Amount of logins to per page. Max of 1.000
         :type  per_page: ``int``
@@ -36,14 +36,13 @@ class LoginClient(object):
             params['limit'] = per_page
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id})
 
-        completions = self.client.get_paged(
-        	'logins?filter[start_date]={0}&filter[end_date]={1}'.format(start_date, end_date),
-        	params=params, data=data)
+        login_results = self.client.get_paged('logins?filter[start_date]={0}&filter[end_date]={1}'.format(start_date, end_date), params=params, data=data)
         results = []
-        for page in completions:
+        for page in login_results:
+            print(page['data'])
             results.extend([ self._to_login(i) for i in page['data']])
         return results
 

@@ -18,4 +18,5 @@ class SkillRatingAttribute(object):
 	skill_name = attrib()
 	rating = attrib()
 	rating_type = attrib()
+	certifiable_skill_guid = attrib()
 	rated_at = attr.ib(converter=attr.converters.optional(arrow.get), default=None)

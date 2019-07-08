@@ -33,12 +33,12 @@ class UserFollowersClient(object):
         if per_page is not None:
             params['limit'] = per_page
         if start_date is not None:
-            params['filter[start_date]'] = start_filter
+            params['filter[start_date]'] = start_date
         if end_date is not None:
-            params['filter[end_date]'] = end_filter
+            params['filter[end_date]'] = end_date
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id})
 
         user_followers = self.client.get_paged('user-followers', params=params, data=data)

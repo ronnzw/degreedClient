@@ -1,6 +1,7 @@
 import arrow
-from attr import attrs, attrib
 import attr
+from attr import attrs, attrib
+
 
 
 @attrs
@@ -35,6 +36,7 @@ class Article(object):
 	attributes = attrib(default=None)
 	links = attrib(default=None)
 
+
 @attrs
 class ArticleAttribute(object):
 	title = attrib()
@@ -50,6 +52,7 @@ class ArticleAttribute(object):
 	publish_date = attr.ib(converter=attr.converters.optional(arrow.get), default=None)
 	created_at = attr.ib(converter=attr.converters.optional(arrow.get), default=None)
 	modified_at = attr.ib(converter=attr.converters.optional(arrow.get), default=None)
+
 
 @attrs
 class Book(object):

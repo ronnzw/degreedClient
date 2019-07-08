@@ -11,11 +11,11 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0', ]
+requirements = ['arrow','requests', 'attrs']
 
 setup_requirements = [ ]
 
-test_requirements = [ ]
+test_requirements = ['pytest','requests_staticmock']
 
 setup(
     author="Ronald Maravanyika",
@@ -39,17 +39,18 @@ setup(
             'degreedClient=degreedClient.cli:main',
         ],
     },
+    package_dir={'degreedClient':'degreedClient'},   
     install_requires=requirements,
     license="Apache Software License 2.0",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='degreedClient',
     name='degreedClient',
-    packages=find_packages(include=['degreedClient']),
+    packages=['degreedClient','degreedClient.models'],
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/Rmaravanyika/degreedClient',
-    version='0.1.0',
+    version='0.5.1',
     zip_safe=False,
 )

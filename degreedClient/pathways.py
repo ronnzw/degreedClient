@@ -14,7 +14,7 @@ class PathwayClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, start_filter=None, end_filter=None, next_id=None):
+    def all(self, start_dater=None, end_date=None, per_page=None, next_id=None):
         """
         Gets all pathways for the current organization.
 
@@ -36,14 +36,14 @@ class PathwayClient(object):
         params = {}
         if per_page is not None:
             params['limit'] = per_page
-        if start_filter is not None:
-        	params['filter[start_date]'] = start_filter
-        if end_filter is not None:
-        	params['filter[end_date]'] = end_filter
+        if start_date is not None:
+        	params['filter[start_date]'] = start_date
+        if end_date is not None:
+        	params['filter[end_date]'] = end_date
 
         data = None
-        if query is not None:
-            data = json.dumps({'q': query})
+        if next_id is not None:
+            data = json.dumps({'next': next_id})
 
         pathways = self.client.get_paged('pathways', params=params, data=data)
         results = []
