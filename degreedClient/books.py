@@ -28,7 +28,7 @@ class BookClient(object):
             params['limit'] = per_page
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id })
 
         books = self.client.get_paged('content/books', params=params, data=data)

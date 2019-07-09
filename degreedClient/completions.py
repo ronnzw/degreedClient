@@ -18,6 +18,7 @@ class CompletionClient(object):
         Gets all completions from start to end date.
 
         :param start_date: Get completions from this date on. (YYYY-MON-DAY)
+         a maximum of 7 days between ``start_date`` and ``end_date``
         :type  start_date: ``str``  
 
         :param end_date: Get completions till this date. (YYYY-MON-DAY)
@@ -39,7 +40,7 @@ class CompletionClient(object):
             params['limit'] = per_page
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id})
 
         completions = self.client.get_paged(

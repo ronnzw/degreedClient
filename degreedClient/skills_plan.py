@@ -17,6 +17,7 @@ class SkillPlanClient(object):
         Get all skill plans for the current organization.
 
         :param start_date: start date eg 2018-11-30
+         A maximum of 7 days part between ``start_date`` and ``end_date``
         :type  start_date: ``str``
 
         :param end_date: end date eg 2018-11-30

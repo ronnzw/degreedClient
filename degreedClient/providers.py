@@ -31,8 +31,8 @@ class ProviderClient(object):
             params['limit'] = per_page
 
         data = None
-        if query is not None:
-            data = json.dumps({'q': query})
+        if next_id is not None:
+            data = json.dumps({'next': next_id})
 
         providers = self.client.get_paged('providers', params=params, data=data)
         results = []

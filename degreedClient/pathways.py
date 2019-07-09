@@ -14,15 +14,16 @@ class PathwayClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, start_dater=None, end_date=None, per_page=None, next_id=None):
+    def all(self, start_date=None, end_date=None, per_page=None, next_id=None):
         """
         Gets all pathways for the current organization.
 
-        :param start_filter: Get pathways modified from this date on.
-        :type  start_filter: ``str``
+        :param start_date: Get pathways modified from this date on.
+         A maximum of 7 days between ``start_date`` and ``end_date``
+        :type  start_date: ``str``
 
-        :param end_filter: Get pathways modified till this date.
-        :type  end_filter: ``str``        
+        :param end_date: Get pathways modified till this date.
+        :type  end_date: ``str``        
 
         :param per_page:   Amount of pathways per page. Max of 1.000
         :type  per_page: ``int``

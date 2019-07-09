@@ -17,6 +17,7 @@ class LoginClient(object):
         Get all logins for the current organization.
 
         :param start_date: Get logins from this date on. YYYY-MON-DAY
+         A maximum of 7 days between ``start_date`` and ``end_date``
         :type  start_date: ``str``
 
         :param end_date: Get logins till this date. YYYY-MON-DAY

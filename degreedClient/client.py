@@ -72,13 +72,8 @@ class DegreedApiClient(object):
         self._client_secret = client_secret
         self._scope = scope
 
-        #self.base_url = "https://api.degreed.com/api/v2"
-        #self.base_url = "https://api.betatest.degreed.com/api/v2"
-        self.token_req_url  = "https://{0}/oauth/token".format(host)        
-        self.base_url = "https://api.{0}/api/v2".format(host)        
-        #self.token_req_url  = "https://degreed.com/oauth/token"
-        #self.token_req_url  = "https://{0}/oauth/token".format(host)
-        #self.token_req_url  = "https://betatest.degreed.com/oauth/token"        
+        self.token_req_url  = "https://{0}/oauth/token".format(self._host)        
+        self.base_url = "https://api.{0}/api/v2".format(self._host)               
         self.session = requests.Session()
 
         if proxy:
@@ -189,7 +184,7 @@ class DegreedApiClient(object):
                     break
 
         except requests.HTTPError as e:
-            raise DegreedApiException(e.response.text, uri)
+            raise DegreedApiException(e.response.text)
 
     def post(self, uri, data=None):
         try:

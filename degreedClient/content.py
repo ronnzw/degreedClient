@@ -10,7 +10,7 @@ class ContentClient(object):
     def __init__(self, client):
         self.client = client
 
-    def all(self, per_page=None, start_filter=None, end_filter=None, next_id=None):
+    def all(self, start_date=None, end_date=None, per_page=None, next_id=None):
         """
         Gets all content.
 
@@ -18,13 +18,14 @@ class ContentClient(object):
         :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of content.
+         A maximum of 7 dsys between ``start_date`` and ``end_date``
         :type  next_id: ``str``
 
-        :param start_filter: Content created from this date on
-        :type  start_filter: ``str``
+        :param start_date: Content created from this date on
+        :type  start_date: ``str``
 
-        :param end_filter:  Content created till this date
-        :type  end_filter: ``str``       
+        :param end_date:  Content created till this date
+        :type  end_date: ``str``       
 
         :return: A list of content
         :rtype: ``list`` of :class:`degreedClient.models.content.Content`
@@ -33,12 +34,12 @@ class ContentClient(object):
         if per_page is not None:
             params['limit'] = per_page
         if start_filter is not None:
-        	params['filter[start_date]'] = start_filter
+        	params['filter[start_date]'] = start_date
         if end_filter is not None:
-        	params['filter[end_date]'] = end_filter
+        	params['filter[end_date]'] = end_date
 
         data = None
-        if query is not None:
+        if next_id is not None:
             data = json.dumps({'next': next_id})
 
         content = self.client.get_paged('content', params=params, data=data)

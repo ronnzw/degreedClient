@@ -30,8 +30,8 @@ class GroupClient(object):
             params['limit'] = per_page
 
         data = None
-        if query is not None:
-            data = json.dumps({'q': query})
+        if next_id is not None:
+            data = json.dumps({'next': next_id})
 
         groups = self.client.get_paged('groups', params=params, data=data)
         results = []

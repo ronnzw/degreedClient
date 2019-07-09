@@ -15,6 +15,7 @@ class RecommendationClient(object):
         Get all recommendations.
 
         :param start_date: Get recommendations from this date on. eg 2018-11-30
+         A a maximum of 7 days between ``start_date`` and ``end_date``
         :type  start_date: ``str``
 
         :param end_date: Get recommendations till this date. eg 2018-11-30

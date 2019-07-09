@@ -15,6 +15,7 @@ class UserFollowersClient(object):
         Gets all user followers.
 
         :param start_date: start date eg 2018-11-30
+         A maximum of 7 days apart between ``start_date`` and ``end_date``
         :type  start_date: ``str``
 
         :param end_date: end date eg 2018-11-30
