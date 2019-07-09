@@ -26,7 +26,20 @@ The Degreed python package to leverage and connect to the Degreed API from pytho
 Features
 --------
 
-* TODO
+* Users Module
+* Content Module ( article, books, videos and courses)
+* Provider Module
+* Pathways Module
+* Recommendations Module
+* Required Learning Module
+* Completions Module
+* Certifiable skills Module
+* Skill Plan Module
+* Skills Rating Module
+* Search terms Module
+* Views Module
+* Groups Module
+
 
 Credits
 -------

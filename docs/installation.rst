@@ -14,7 +14,11 @@ To install Python client for Degreed API, run this command in your terminal:
 
     $ pip install degreedClient
 
-This is the preferred method to install Python client for Degreed API, as it will always install the most recent stable release.
+This is the preferred method to install Python client for Degreed API, as it will always install the most recent stable release. After installing ``degreedClient`` immediately upgrade ``attrs`` using pip:
+
+.. code-block:: console
+
+    $ pip install attrs==19.1.0
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
