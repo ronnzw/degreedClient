@@ -7,12 +7,12 @@ To use Python client for Degreed API in a project::
     from degreedClient import DegreedApiClient
 
 
-The degreed api has got various modules which this client made available, however each module requires a specific ``scope`` for that module. The scope is something similar to this: ``users:read`` it may also look like this: ``users_read`` Degreed confirmed through their `documentation` that all methods will be supported, well at least for now but l recommend the first method of using a colon as a dimiliter.
+The degreed api has got various modules which this client made available, however each module requires a specific ``scope`` for that module. The scope is something similar to this: ``users:read`` it may also look like this: ``users_read`` Degreed confirmed through their `documentation`_ that all methods will be supported, well at least for now but l recommend the first method of using a colon as a dimiliter.
 
 .. _documentation: https://api.degreed.com/docs/#release-april-2019
 
 
-To be able to use Degreed's api you will need the ``client_id`` , ``client_secret`` and also the ``host`` .The client id and client secret are given by Degreed Technical Solutions Specialist. The host has got a development host as well as production host. You get all these from Degreed. The API uses OAuth 2.0 protocol’s Client Credentials Flow, you can get more information via `Degreed` official documentation.
+To be able to use Degreed's api you will need the ``client_id`` , ``client_secret`` and also the ``host`` .The client id and client secret are given by Degreed Technical Solutions Specialist. The host has got a development host as well as production host. You get all these from Degreed. The API uses OAuth 2.0 protocol’s Client Credentials Flow, you can get more information via `Degreed`_ official documentation.
 
 .. _Degreed: https://api.degreed.com/docs/#authentication
 
