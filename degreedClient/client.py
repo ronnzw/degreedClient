@@ -43,7 +43,7 @@ class DegreedApiClient(object):
     """
     Set the default results per page. Max 100
     """
-    results_per_page = 10
+    results_per_page = 100
 
     def __init__(self, host, client_id, client_secret, scope, proxy=None, skip_ssl_validation=False):
         """

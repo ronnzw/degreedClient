@@ -33,9 +33,9 @@ class ContentClient(object):
         params = {}
         if per_page is not None:
             params['limit'] = per_page
-        if start_filter is not None:
+        if start_date is not None:
         	params['filter[start_date]'] = start_date
-        if end_filter is not None:
+        if end_date is not None:
         	params['filter[end_date]'] = end_date
 
         data = None

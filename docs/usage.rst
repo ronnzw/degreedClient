@@ -12,7 +12,7 @@ The degreed api has got various modules which this client made available, howeve
 .. _documentation: https://api.degreed.com/docs/#release-april-2019
 
 
-To be able to use Degreed's api you will need the ``client_id`` , ``client_secret`` and also the ``host`` .The client id and client secret are given by Degreed Technical Solutions Specialist. The host has got a development host as well as production host. You get all these from Degreed. The API uses OAuth 2.0 protocol’s Client Credentials Flow, you can get more information via `Degreed`_ official documentation.
+To be able to use Degreed's api you will need the ``client_id`` , ``client_secret`` and also the ``host`` .The client id and client secret are given by Degreed Technical Solutions Specialist. The host has got a development host as well as production host. The hostname uses the format ``degreed.com`` and for betatest(development) it is in the format ``betatest.degreed.com`` .You get all these from Degreed. The API uses OAuth 2.0 protocol’s Client Credentials Flow, you can get more information via `Degreed`_ official documentation.
 
 .. _Degreed: https://api.degreed.com/docs/#authentication
 
