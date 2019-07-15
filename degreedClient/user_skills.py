@@ -15,6 +15,7 @@ class UserSkillClient(object):
         Gets all users skills for the current organisation.
 
         :param start_date: start date eg 2018-11-30
+         A maximum of 7 days between ``start_date`` and ``end_date``
         :type  start_date: ``str``
 
         :param end_date: end date eg 2018-11-30
@@ -33,9 +34,9 @@ class UserSkillClient(object):
         if per_page is not None:
             params['limit'] = per_page
         if start_date is not None:
-            params['filter[start_date]'] = start_filter
+            params['filter[start_date]'] = start_date
         if end_date is not None:
-            params['filter[end_date]'] = end_filter
+            params['filter[end_date]'] = end_date
 
         data = None
         if next_id is not None:
