@@ -40,7 +40,7 @@ class UserClient(object):
 
     def get(self, id):
         """
-        Fetch a user by ID.
+        Fetch a specific user by ID.
 
         :param id: The user id
         :type  id: ``str``
@@ -54,7 +54,7 @@ class UserClient(object):
 
     def get_today_learnings(self, id):
         """
-        Fetch user learning for a day by ID.
+        Retrieves all today's learning for a specific user.
 
         :param id: The user id
         :type  id: ``str``
@@ -74,7 +74,7 @@ class UserClient(object):
 
     def get_user_completions(self, id):
         """
-        Fetch user completions by ID.
+        Retrieves all completions for a specific user.
 
         :param id: The user id
         :type  id: ``str``
@@ -93,7 +93,9 @@ class UserClient(object):
     
     def get_user_skills(self, id):
         """
-        Fetch user skills by ID.
+        Retrieves all skills for a specific user.
+
+         ``scope``: is ``user_skills:read``
 
         :param id: The user id
         :type  id: ``str``
@@ -112,7 +114,7 @@ class UserClient(object):
 
     def get_user_certifiable_skills(self, id):
         """
-        Fetch user certifiable skills by ID.
+        Retrieves all certifiable skills for a specific user.
 
         :param id: The user id
         :type  id: ``str``

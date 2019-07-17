@@ -18,7 +18,6 @@ class ContentClient(object):
         :type  per_page: ``int``
 
         :param next_id: Supplied to retrieve the next batch of content.
-         A maximum of 7 dsys between ``start_date`` and ``end_date``
         :type  next_id: ``str``
 
         :param start_date: Content created from this date on
