@@ -71,25 +71,6 @@ class UserClient(object):
             learning_details = "nothing"
 
         return learning_details
-
-    def get_user_completions(self, id):
-        """
-        Retrieves all completions for a specific user.
-
-        :param id: The user id
-        :type  id: ``str``
-
-        :return: An instance :class:`degreedClient.models.user.User`
-        :rtype: :class:`degreedClient.models.user.User`
-        """         
-        comp_data = self.client.get("users/{0}/completions".format(id))
-        comp_list = comp_data["data"]
-        if len(comp_list) > 0:
-            comp_dict = comp_list[0]
-            comp_details = comp_dict["attributes"]
-        else:
-            comp_details = "nothing completed yet"
-        return comp_details
     
     def get_user_skills(self, id):
         """
@@ -341,6 +322,7 @@ class UserClient(object):
         :rtype: None    
         """
         self.client.delete("users/{0}".format(id))
+
 
     def _to_user(self, data):
         scrub(data)

@@ -24,12 +24,40 @@ class CompletionAttribute(object):
 	rating = attrib(default=0)
 	access_method = attrib(default=None)
 
+@attrs
+class Relationships(object):
+	user = attrib()
+
 
 @attrs
-class NewCompletionAttribute(object):
-	user_id = attrib()
-	user_identifier_type = attrib()
-	content_id = attrib()
-	content_id_type = attrib()
+class RelationshipsData(object):
+	id = attrib()
+
+
+
+@attrs
+class RelationshipsProvider(object):
+	id = attrib()
+	type_ = attrib()
+
+
+@attrs
+class RelationshipsUser(object):
+	id = attrib()
+	type_ = attrib()
+
+
+@attrs
+class Included(object):
+	id = attrib()
+	attributes = attrib()
+	links = attrib()
+
+
+@attrs
+class IncludeAttributes(object):
 	content_type = attrib()
-	completed_at = attr.ib(converter=attr.converters.optional(arrow.get), default=None)
+	url = attrib()
+	title = attrib()
+	provider = attrib()
+

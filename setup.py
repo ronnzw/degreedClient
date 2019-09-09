@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['arrow','requests', 'attrs']
+requirements = ['arrow','requests', 'attrs>=19.1.0']
 
 setup_requirements = [ ]
 
@@ -40,7 +40,7 @@ setup(
         ],
     },
     package_dir={'degreedClient':'degreedClient'},   
-    install_requires=requirements,
+    install_requires=['arrow','requests', 'attrs>=19.1.0'],
     license="Apache Software License 2.0",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
@@ -51,6 +51,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/Rmaravanyika/degreedClient',
-    version='1.0.0',
+    version='2.0.4',
     zip_safe=False,
 )

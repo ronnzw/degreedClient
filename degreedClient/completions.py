@@ -3,8 +3,8 @@ import json
 from .compatibility import scrub
 from .exceptions import UserNotFoundException
 from .models.user import User
-from .models.completion import Completion
-from .models.completion import CompletionAttribute, NewCompletionAttribute
+from .models.completion import Completion, RelationshipsData, IncludeAttributes, Included
+from .models.completion import CompletionAttribute, Relationships
 
 
 class CompletionClient(object):
@@ -168,6 +168,38 @@ class CompletionClient(object):
         """
         self.client.delete("completions/{0}".format(id))
 
+    def get_user_completions(self, id):
+        """
+        Retrieves all completions for a specific user.
+
+        :param id: The user id
+        :type  id: ``str``
+
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
+        """         
+        completion_data = self.client.get("users/{0}/completions".format(id))
+        completion_list = comp_data["data"]
+        if len(completion_list) > 0:
+            completion_dict = completion_list[0]
+        return self._to_completions_map(completion_dict)
+
+    def get_user_completions_by_email(self, email):
+        """
+        Retrieves all completions by passing the email.
+
+        :param email: The user email
+        :type  email: ``str``
+
+        :return: An instance :class:`degreedClient.models.user.User`
+        :rtype: :class:`degreedClient.models.user.User`
+        """         
+        completion_data = self.client.get("users/{0}/completions?identifier=email".format(email))
+        completion_list = completion_data["data"]
+        if len(completion_list) > 0:
+            completion_dict = completion_list[0]
+        return self._to_completions_map(completion_dict)
+
     def _to_completions(self, data):
         scrub(data)
         if "attributes" in data and data["attributes"] is not None:
@@ -176,3 +208,15 @@ class CompletionClient(object):
         	data['attributes'] = CompletionAttribute(**data['attributes'])
         	data['attributes'] = NewCompletionAttribute(**data['attributes'])
         return Completion(**data)
+
+    def _to_completions_map(self, data):
+        scrub(data)
+        if 'attributes' in data and data["attributes"] is not None:
+            data['attributes'] = { x.replace('-','_'): y
+            for x,y in data['attributes'].items()}
+            data['attributes'] = CompletionAttribute(**data['attributes'])
+            data['relationships'] = Relationships(**data['relationships'][2])
+            data['included'] = Included(**data['included'][0])
+        return Completion(**data)
+
+
