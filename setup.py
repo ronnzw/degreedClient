@@ -40,7 +40,7 @@ setup(
         ],
     },
     package_dir={'degreedClient':'degreedClient'},   
-    install_requires=['arrow','requests', 'attrs>=19.1.0'],
+    install_requires=requirements,
     license="Apache Software License 2.0",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
@@ -51,6 +51,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/Rmaravanyika/degreedClient',
-    version='2.0.4',
+    version='2.0.5',
     zip_safe=False,
 )
