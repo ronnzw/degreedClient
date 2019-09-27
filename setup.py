@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['arrow','requests', 'attrs>=19.1.0']
+requirements = ['arrow','requests', 'attrs']
 
 setup_requirements = [ ]
 
@@ -51,6 +51,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/Rmaravanyika/degreedClient',
-    version='2.0.5',
+    version='2.1.0',
     zip_safe=False,
 )

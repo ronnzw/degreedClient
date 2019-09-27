@@ -24,6 +24,17 @@ class CompletionAttribute(object):
 	rating = attrib(default=0)
 	access_method = attrib(default=None)
 
+
+@attrs
+class CompletionCreationAttributes(object):
+	user_id = attrib()
+	user_identifier_type = attrib()
+	content_id = attrib()
+	content_id_type = attrib()
+	content_type = attrib()
+	completed_at = attr.ib(converter=attr.converters.optional(arrow.get), default=None)
+	is_verified = attrib(default=False)
+
 @attrs
 class Relationships(object):
 	user = attrib()

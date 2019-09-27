@@ -4,7 +4,7 @@ from .compatibility import scrub
 from .exceptions import UserNotFoundException
 from .models.user import User
 from .models.completion import Completion, RelationshipsData, IncludeAttributes, Included
-from .models.completion import CompletionAttribute, Relationships
+from .models.completion import CompletionAttribute, Relationships, CompletionCreationAttributes
 
 
 class CompletionClient(object):
@@ -98,7 +98,7 @@ class CompletionClient(object):
 
         new_completion = self.client.post("completions", {"data":{"attributes": params}})
         a_completion = new_completion['data']
-        return self._to_completions(a_completion)
+        return self._to_new_completions(a_completion)
 
     def update(self,
         id,
@@ -218,5 +218,15 @@ class CompletionClient(object):
             data['relationships'] = Relationships(**data['relationships'][2])
             data['included'] = Included(**data['included'][0])
         return Completion(**data)
+
+    def _to_new_completions(self, data):
+        scrub(data)
+        if "attributes" in data and data["attributes"] is not None:
+            data['attributes'] = { x.replace('-','_'): y
+            for x,y in data['attributes'].items()}
+            data['attributes'] = CompletionCreationAttributes(**data['attributes'])
+        return Completion(**data)
+
+
 
 
