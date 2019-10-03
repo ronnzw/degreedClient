@@ -40,7 +40,7 @@ readme-renderer==24.0
 requests==2.22.0
 requests-toolbelt==0.9.1
 six==1.12.0
-snowballstemmer==1.2.1
+snowballstemmer==2.0.0
 Sphinx==2.0.1
 sphinxcontrib-applehelp==1.0.1
 sphinxcontrib-devhelp==1.0.1
