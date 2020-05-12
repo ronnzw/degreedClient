@@ -15,7 +15,7 @@ from .certifiable_skills import CertifiableSkillClient
 from .completions import CompletionClient
 from .content import ContentClient
 from .courses import CourseClient
-from .exceptions import DegreedApiException 
+from .exceptions import DegreedApiException
 from .groups import GroupClient
 from .logins import LoginClient
 from .pathways import PathwayClient
@@ -50,7 +50,7 @@ class DegreedApiClient(object):
         Instantiate a new API client
 
         :param host: Host e.g: degreed.com
-        :type  host: ``str``        
+        :type  host: ``str``
 
         :param client_id: client_id, e.g. 'a123b456cd789' (request from degreed)
         :type  client_id: ``str``
@@ -59,7 +59,7 @@ class DegreedApiClient(object):
         :type  client_secret: ``str``
 
         :param scope: The scope of the access rights eg 'users:read'
-        :type  scope: ``str``        
+        :type  scope: ``str``
 
         :param proxy: The proxy to connect through
         :type  proxy: ``str``
@@ -72,8 +72,8 @@ class DegreedApiClient(object):
         self._client_secret = client_secret
         self._scope = scope
 
-        self.token_req_url  = "https://{0}/oauth/token".format(self._host)        
-        self.base_url = "https://api.{0}/api/v2".format(self._host)               
+        self.token_req_url  = "https://{0}/oauth/token".format(self._host)
+        self.base_url = "https://api.{0}/api/v2".format(self._host)
         self.session = requests.Session()
 
         if proxy:
@@ -81,7 +81,7 @@ class DegreedApiClient(object):
         if skip_ssl_validation:
             self.session.verify = False
 
-        payload = {
+        body = {
             'grant_type': "client_credentials",
             'client_id': '{0}'.format(self._client_id),
             'client_secret':'{0}'.format(self._client_secret),
@@ -89,10 +89,10 @@ class DegreedApiClient(object):
         }
 
         headers = {
-            'content-type': "application/x-www-form-urlencoded",
+            'content-type': "application/json",
             }
 
-        self.response = self.session.post(self.token_req_url, data=payload, headers=headers)
+        self.response = self.session.post(self.token_req_url, data=body, headers=headers)
         self.access_data = self.response.json()
         try:
             self.expiry_time = self.access_data['expires_in']
@@ -100,7 +100,7 @@ class DegreedApiClient(object):
             self._refresh_token = self.access_data['refresh_token']
 
             if self.expiry_time <= 50:
-                payload = {
+                body = {
                     'grant_type': "refresh_token",
                     'refresh_token': self._refresh_token,
                     'client_id': self._client_id,
@@ -109,12 +109,12 @@ class DegreedApiClient(object):
                 }
 
                 headers = {
-                    'content-type': "application/x-www-form-urlencoded",
+                    'content-type': "application/json",
                 }
 
-                self.response = session.post(token_req_url, data=payload, headers=headers)
+                self.response = session.post(token_req_url, data=body, headers=headers)
                 self.access_data = self.response.json()
-                self.access_token = self.access_data['access_token']  
+                self.access_token = self.access_data['access_token']
             else:
                 pass
 
@@ -203,7 +203,7 @@ class DegreedApiClient(object):
             return result.json()
         except requests.HTTPError as e:
             raise DegreedApiException(e.response.text)
-            
+
     def put(self, uri, data=None):
         try:
             result = self.session.put("{0}/{1}".format(self.base_url, uri), json=data)
@@ -253,16 +253,16 @@ class DegreedApiClient(object):
         Learning Books
 
         :rtype: :class:`degreedClient.books.BookClient`
-        """        
+        """
         return self._book
-    
+
     @property
     def video(self):
         """
         Learning Videos
 
         :rtype: :class:`degreedClient.videos.VideoClient`
-        """         
+        """
         return self._video
     @property
     def course(self):
@@ -270,16 +270,16 @@ class DegreedApiClient(object):
         Learning Courses
 
         :rtype: :class:`degreedClient.courses.CourseClient`
-        """                 
+        """
         return self._course
-    
+
     @property
     def group(self):
         """
         Groups
 
         :rtype: :class:`degreedClient.groups.GroupClient`
-        """          
+        """
         return self._group
 
     @property
@@ -288,7 +288,7 @@ class DegreedApiClient(object):
         Completions
 
         :rtype: :class:`degreedClient.completions.CompletionClient`
-        """          
+        """
         return self._completion
 
     @property
@@ -297,7 +297,7 @@ class DegreedApiClient(object):
         Login
 
         :rtype: :class:`degreedClient.logins.LoginClient`
-        """             
+        """
         return self._login
 
     @property
@@ -306,9 +306,9 @@ class DegreedApiClient(object):
         Pathways
 
         :rtype: :class:`degreedClient.pathways.PathwayClient`
-        """          
+        """
         return self._pathway
-    
+
     @property
     def recommendation(self):
         """
@@ -324,7 +324,7 @@ class DegreedApiClient(object):
         Required Learnings
 
         :rtype: :class:`degreedClient.required_learnings.RequiredLearningsClient`
-        """        
+        """
         return self._learnings
 
     @property
@@ -333,25 +333,25 @@ class DegreedApiClient(object):
         User Followers
 
         :rtype: :class:`degreedClient.user_followers.UserFollowersClient`
-        """        
+        """
         return self._userfollower
-    
+
     @property
     def provider(self):
         """
         Provider
 
         :rtype: :class:`degreedClient.providers.ProviderClient`
-        """          
+        """
         return self._provider
-    
+
     @property
     def skillplan(self):
         """
         Skill Plans
 
         :rtype: :class:`degreedClient.skills_plan.SkillPlanClient`
-        """        
+        """
         return self._skillplan
 
     @property
@@ -360,7 +360,7 @@ class DegreedApiClient(object):
         User Skills
 
         :rtype: :class:`degreedClient.user_skills.UserSkillClient`
-        """        
+        """
         return self._userskill
 
     @property
@@ -369,7 +369,7 @@ class DegreedApiClient(object):
         Certifiable Skills
 
         :rtype: :class:`degreedClient.certifiable_skills.CertifiableSkillClient`
-        """        
+        """
         return self._certifiableskill
 
 
@@ -379,7 +379,7 @@ class DegreedApiClient(object):
         Skill Ratings
 
         :rtype: :class:`degreedClient.skills_ratings.SkillRatingClient`
-        """        
+        """
         return self._skillrating
 
     @property
@@ -388,22 +388,22 @@ class DegreedApiClient(object):
         Search Terms
 
         :rtype: :class:`degreedClient.search_terms.SearchTermClient`
-        """          
+        """
         return self._searchterm
-    
+
     @property
     def theviews(self):
         """
         Views of content
 
         :rtype: :class:`degreedClient.the_views.TheViewClient`
-        """         
+        """
         return self._theviews
-    
-    
-    
-    
-    
+
+
+
+
+
 ###############################################################
 #.       Continue from here...if new modules are set
 ###############################################################

@@ -11,4 +11,3 @@ class User(object):
     links = attrib()
     relationships = attrib(default=None)
     included = attrib(default=None)
-
