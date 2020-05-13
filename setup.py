@@ -11,7 +11,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['arrow','requests', 'attrs']
+requirements = [
+    'arrow',
+    'requests',
+    'attrs',
+    'PyYAML'
+]
 
 setup_requirements = [ ]
 
@@ -25,11 +30,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
@@ -39,18 +39,18 @@ setup(
             'degreedClient=degreedClient.cli:main',
         ],
     },
-    package_dir={'degreedClient':'degreedClient'},   
+    package_dir={'degreedClient':'degreedClient'},
     install_requires=requirements,
     license="Apache Software License 2.0",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='degreedClient',
-    name='degreedClient',
+    name='degreed_client',
     packages=['degreedClient','degreedClient.models'],
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/Rmaravanyika/degreedClient',
-    version='2.1.0',
+    version='2.2.2',
     zip_safe=False,
 )
