@@ -25,7 +25,7 @@ MarkupSafe==1.1.1
 mccabe==0.6.1
 packaging==19.0
 pathtools==0.1.2
-pkginfo==1.5.0.1
+pkginfo==1.9.2
 pluggy==0.11.0
 poyo==0.4.2
 py==1.8.0
